@@ -58,15 +58,17 @@ public class DriverFactory {
                 file.setReadable(true, true);
                 file.setWritable(true, true);
                 file.setExecutable(true, true);
-                DeviceName = "Apple iPhone 5";
-                Map<String, String> mobileEmulation = new HashMap<String, String>();
-                mobileEmulation.put("deviceName", DeviceName);
-
-                Map<String, Object> chromeOptions = new HashMap<String, Object>();
-                chromeOptions.put("mobileEmulation", mobileEmulation);
-
-                capabilities = DesiredCapabilities.chrome();
-                capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+                final DesiredCapabilities dc = DesiredCapabilities.chrome();
+                
+                dc.setCapability(ChromeOptions.CAPABILITY, new ChromeOptions() {
+                    {
+                        setExperimentalOption("mobileEmulation", new HashMap<String, Object>() {
+                            {
+                                put("deviceName", "Google Nexus 5");
+                            }
+                        });
+                    }
+                });
 
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-extensions"); // disabling extensions
