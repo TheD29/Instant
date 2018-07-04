@@ -58,17 +58,6 @@ public class DriverFactory {
                 file.setReadable(true, true);
                 file.setWritable(true, true);
                 file.setExecutable(true, true);
-                final DesiredCapabilities dc = DesiredCapabilities.chrome();
-                
-                dc.setCapability(ChromeOptions.CAPABILITY, new ChromeOptions() {
-                    {
-                        setExperimentalOption("mobileEmulation", new HashMap<String, Object>() {
-                            {
-                                put("deviceName", "Google Nexus 5");
-                            }
-                        });
-                    }
-                });
 
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-extensions"); // disabling extensions
@@ -83,7 +72,7 @@ public class DriverFactory {
                 System.setProperty(
                         "webdriver.chrome.driver",
                         ("chromedriver"));
-                return new ChromeDriver(options, capabilities);
+                return new ChromeDriver(options);
         }
     }
 

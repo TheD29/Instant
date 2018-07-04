@@ -82,6 +82,7 @@ public class GeneralActions {
 
     public void getCarList() {
         try {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             List<WebElement> links = driver.findElements(carTypeList);
             random = links.get(new Random().nextInt(links.size()));
             random.click();
@@ -135,8 +136,9 @@ public class GeneralActions {
     }
 
     public void WeatherMessageBody() throws InterruptedException {
-        By reciveSMSTITLE = By.className("page-title");
-//        Assert.assertEquals("Type received code", driver.findElement(reciveSMSTITLE).getText());
+        By reciveSMSTITLE = By.xpath("//h1[.=\"Type received code\"]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(reciveSMSTITLE));
+        Assert.assertEquals("Type received code", driver.findElement(reciveSMSTITLE).getText());
         try {
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             String SMS = getGetTestField();
@@ -196,7 +198,11 @@ public class GeneralActions {
 
 
     public void setDayOfBirth() throws InterruptedException {
-        Thread.sleep(750);
+        By birthTtle = By.xpath("//h1[.=\"Your birthday\"]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(birthTtle));
+        Assert.assertTrue(driver.findElement(birthTtle)
+                .getText()
+                .contains("Your birthday"));
         enableButton();
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -213,13 +219,13 @@ public class GeneralActions {
             actions.moveToElement(driver.findElement(d2)).sendKeys("1").perform();
             Thread.sleep(150);
             actions.moveToElement(driver.findElement(m1)).sendKeys("1").perform();
-            Thread.sleep(175);
+            Thread.sleep(200);
             actions.moveToElement(driver.findElement(m2)).sendKeys("1").perform();
-            Thread.sleep(175);
+            Thread.sleep(200);
             actions.moveToElement(driver.findElement(y1)).sendKeys("1").perform();
-            Thread.sleep(175);
+            Thread.sleep(200);
             actions.moveToElement(driver.findElement(y2)).sendKeys("9").perform();
-            Thread.sleep(175);
+            Thread.sleep(200);
             actions.moveToElement(driver.findElement(y3)).sendKeys("8").perform();
             Thread.sleep(175);
             actions.moveToElement(driver.findElement(y4)).sendKeys("8").perform();
