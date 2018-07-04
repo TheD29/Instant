@@ -199,11 +199,11 @@ public class GeneralActions {
 
     public void setDayOfBirth() throws InterruptedException {
         By birthTtle = By.xpath("//h1[.=\"Your birthday\"]");
-        wait.until(ExpectedConditions.presenceOfElementLocated(birthTtle));
+        wait.until(ExpectedConditions.titleIs("Instant car loan approval - Canada"));
         Assert.assertEquals("Your birthday", driver.findElement(birthTtle).getText());
-        enableButton();
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            enableButton();
             By d1 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[1]");
             By d2 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[2]");
             By m1 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[3]");
@@ -212,6 +212,7 @@ public class GeneralActions {
             By y2 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[6]");
             By y3 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[7]");
             By y4 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[8]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(d1));
             actions.moveToElement(driver.findElement(d1)).sendKeys("1").perform();
             Thread.sleep(150);
             actions.moveToElement(driver.findElement(d2)).sendKeys("1").perform();
