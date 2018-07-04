@@ -54,7 +54,8 @@ public class DriverFactory {
                 return new ChromeDriver();
 
             case "ubuntu":
-
+                ChromeOptions chromeOptions= new ChromeOptions();
+//                chromeOptions.setBinary("C:\\ThePAthtoChrome.exe");
                 System.setProperty(
                         "webdriver.chrome.driver",
                         ("chromedriver"));
