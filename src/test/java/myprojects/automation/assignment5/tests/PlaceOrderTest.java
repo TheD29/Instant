@@ -22,7 +22,7 @@ public class PlaceOrderTest extends BaseTest {
         actions.setPhoneNumber();
         actions.WeatherMessageBody();
         actions.setFullName();
-//        actions.setDayOfBirth();
+        actions.setDayOfBirth();
 //        /*man or women*/
 //        actions.setGender();
 //        /*Work or no*/

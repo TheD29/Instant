@@ -199,10 +199,7 @@ public class GeneralActions {
 
     public void setDayOfBirth() throws InterruptedException {
         By birthTtle = By.xpath("//h1[.=\"Your birthday\"]");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(birthTtle));
-//        Assert.assertTrue(driver.findElement(birthTtle)
-//                .getText()
-//                .contains("Your birthday"));
+        wait.until(ExpectedConditions.presenceOfElementLocated(birthTtle));
         Assert.assertEquals("Your birthday", driver.findElement(birthTtle).getText());
         enableButton();
         try {
