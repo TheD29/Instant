@@ -54,7 +54,7 @@ public class DriverFactory {
                 return new ChromeDriver();
 
             case "ubuntu":
-                ChromeOptions chromeOptions= new ChromeOptions();
+                ChromeOptions chromeOptions = new ChromeOptions();
 //                chromeOptions.setBinary("C:\\ThePAthtoChrome.exe");
                 System.setProperty(
                         "webdriver.chrome.driver",
@@ -88,10 +88,19 @@ public class DriverFactory {
                 }
             case "chrome":
             default:
+                Map<String, String> mobileEmulation = new HashMap<>();
+                mobileEmulation.put("deviceName", "iPhone 5");
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+                chromeOptions.addArguments("--disable-extensions"); // disabling extensions
+                chromeOptions.addArguments("--disable-gpu"); // applicable to windows os only
+                chromeOptions.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+                chromeOptions.addArguments("--no-sandbox"); // Bypass OS security model
+                chromeOptions.addArguments("--headless");
                 System.setProperty(
                         "webdriver.chrome.driver",
                         new File(DriverFactory.class.getResource("/chromedriver.exe").getFile()).getPath());
-                return new ChromeDriver();
+                return new ChromeDriver(chromeOptions);
         }
     }
 }
