@@ -198,12 +198,12 @@ public class GeneralActions {
 
 
     public void setDayOfBirth() throws InterruptedException {
-//        By birthTtle = By.xpath("//h1[.=\"Your birthday\"]");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(birthTtle));
+        By birthTtle = By.xpath("//h1[.=\"Your birthday\"]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(birthTtle));
 //        Assert.assertTrue(driver.findElement(birthTtle)
 //                .getText()
 //                .contains("Your birthday"));
-        Thread.sleep(1200);
+        Assert.assertEquals("Your birthday", driver.findElement(birthTtle).getText());
         enableButton();
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
