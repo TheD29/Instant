@@ -93,8 +93,8 @@ public class DriverFactory {
                 file.setWritable(true, true);
                 file.setExecutable(true, true);
 
-                Map<String, String> mobileEmulation = new HashMap<>();
-                mobileEmulation.put("deviceName", "iPhone 5");
+//                Map<String, String> mobileEmulation = new HashMap<>();
+//                mobileEmulation.put("deviceName", "iPhone 5");
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
                 chromeOptions.addArguments("--disable-extensions"); // disabling extensions
