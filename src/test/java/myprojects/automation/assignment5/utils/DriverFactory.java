@@ -58,20 +58,17 @@ public class DriverFactory {
                 file.setReadable(true, true);
                 file.setWritable(true, true);
                 file.setExecutable(true, true);
-                Map<String, Object> deviceMetrics = new HashMap<>();
+                DeviceName = "Apple iPhone 5";
+                Map<String, String> mobileEmulation = new HashMap<String, String>();
+                mobileEmulation.put("deviceName", DeviceName);
 
-                deviceMetrics.put("width", 360);
+                Map<String, Object> chromeOptions = new HashMap<String, Object>();
+                chromeOptions.put("mobileEmulation", mobileEmulation);
 
-                deviceMetrics.put("height", 640);
+                capabilities = DesiredCapabilities.chrome();
+                capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 
-                deviceMetrics.put("pixelRatio", 3.0);
-
-
-                Map<String, Object> mobileEmulation = new HashMap<>();
-                mobileEmulation.put("deviceMetrics", deviceMetrics);
-                mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19");
                 ChromeOptions options = new ChromeOptions();
-                options.setExperimentalOption("mobileEmulation", mobileEmulation);
                 options.addArguments("--disable-extensions"); // disabling extensions
                 options.addArguments("disable-infobars"); // disabling infobars
                 options.addArguments("--disable-gpu"); // applicable to windows os only
@@ -84,7 +81,7 @@ public class DriverFactory {
                 System.setProperty(
                         "webdriver.chrome.driver",
                         ("chromedriver"));
-                return new ChromeDriver(options);
+                return new ChromeDriver(options, capabilities);
         }
     }
 
