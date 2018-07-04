@@ -61,14 +61,19 @@ public class DriverFactory {
 
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-extensions"); // disabling extensions
+                options.addArguments("disable-infobars"); // disabling infobars
                 options.addArguments("--disable-gpu"); // applicable to windows os only
                 options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
                 options.addArguments("--no-sandbox"); // Bypass OS security model
                 options.addArguments("--headless"); // Bypass OS security model
+                options.setExperimentalOption("useAutomationExtension", false);
+//                ChromeDriverService chromeService = new Builder().withVerbose(true)
+//                        .withLogFile(new File(DriverFactory.class.getResource("/driver.log")
+//                                .getFile()).getPath().build();
                 System.setProperty(
                         "webdriver.chrome.driver",
                         ("chromedriver"));
-                return new ChromeDriver();
+                return new ChromeDriver(options);
         }
     }
 
