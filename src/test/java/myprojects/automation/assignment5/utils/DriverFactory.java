@@ -86,8 +86,13 @@ public class DriverFactory {
                 } catch (MalformedURLException e) {
                     System.out.println("Error init driver");
                 }
-            case "chrome":
+            case "ubuntu":
             default:
+                File file = new File("chromedriver");
+                file.setReadable(true, true);
+                file.setWritable(true, true);
+                file.setExecutable(true, true);
+
                 Map<String, String> mobileEmulation = new HashMap<>();
                 mobileEmulation.put("deviceName", "iPhone 5");
                 ChromeOptions chromeOptions = new ChromeOptions();
