@@ -54,10 +54,16 @@ public class DriverFactory {
                 return new ChromeDriver();
 
             case "ubuntu":
-				File file = new File("chromedriver");
-				file.setReadable(true, true);
-				file.setWritable(true, true);
-				file.setExecutable(true,true);
+                File file = new File("chromedriver");
+                file.setReadable(true, true);
+                file.setWritable(true, true);
+                file.setExecutable(true, true);
+
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--disable-extensions"); // disabling extensions
+                options.addArguments("--disable-gpu"); // applicable to windows os only
+                options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+                options.addArguments("--no-sandbox"); // Bypass OS security model
                 System.setProperty(
                         "webdriver.chrome.driver",
                         ("chromedriver"));
