@@ -58,8 +58,18 @@ public class DriverFactory {
                 file.setReadable(true, true);
                 file.setWritable(true, true);
                 file.setExecutable(true, true);
-                Map<String, String> mobileEmulation = new HashMap<>();
-                mobileEmulation.put("deviceName", "Nexus 5");
+                Map<String, Object> deviceMetrics = new HashMap<>();
+
+                deviceMetrics.put("width", 360);
+
+                deviceMetrics.put("height", 640);
+
+                deviceMetrics.put("pixelRatio", 3.0);
+
+
+                Map<String, Object> mobileEmulation = new HashMap<>();
+                mobileEmulation.put("deviceMetrics", deviceMetrics);
+                mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19");
                 ChromeOptions options = new ChromeOptions();
                 options.setExperimentalOption("mobileEmulation", mobileEmulation);
                 options.addArguments("--disable-extensions"); // disabling extensions
@@ -68,7 +78,6 @@ public class DriverFactory {
                 options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
                 options.addArguments("--no-sandbox"); // Bypass OS security model
                 options.addArguments("--headless"); // Bypass OS security model
-                options.setExperimentalOption("useAutomationExtension", false);
 //                ChromeDriverService chromeService = new Builder().withVerbose(true)
 //                        .withLogFile(new File(DriverFactory.class.getResource("/driver.log")
 //                                .getFile()).getPath().build();
