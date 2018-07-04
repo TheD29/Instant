@@ -58,8 +58,10 @@ public class DriverFactory {
                 file.setReadable(true, true);
                 file.setWritable(true, true);
                 file.setExecutable(true, true);
-
+                Map<String, String> mobileEmulation = new HashMap<>();
+                mobileEmulation.put("deviceName", "Nexus 5");
                 ChromeOptions options = new ChromeOptions();
+                options.setExperimentalOption("mobileEmulation", mobileEmulation);
                 options.addArguments("--disable-extensions"); // disabling extensions
                 options.addArguments("disable-infobars"); // disabling infobars
                 options.addArguments("--disable-gpu"); // applicable to windows os only

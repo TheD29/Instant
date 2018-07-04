@@ -67,23 +67,48 @@ public class GeneralActions {
     }
 
     public String getGetTestField() {
-        String sms = driver.findElement(getTestField).getText();
+        String sms = null;
+        try {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            sms = driver.findElement(getTestField).getText();
+        } catch (NoSuchElementException e) {
+            CustomReporter.log("SMS not Found");
+            CustomReporter.captureScreenshot(driver, "sms", "sms");
+        }
         return sms;
+
+
     }
 
     public void getCarList() {
-        List<WebElement> links = driver.findElements(carTypeList);
-        random = links.get(new Random().nextInt(links.size()));
-        random.click();
-        waitForContenLoad(Button);
+        try {
+            List<WebElement> links = driver.findElements(carTypeList);
+            random = links.get(new Random().nextInt(links.size()));
+            random.click();
+            waitForContenLoad(Button);
+            CustomReporter.log("Main page is passed");
+        } catch (NullPointerException e) {
+            CustomReporter.captureScreenshot(driver, "cartype", "cartype");
+        }
 
     }
 
     public void getBudgetList() {
-        List<WebElement> links1 = driver.findElements(budget);
-        random = links1.get(new Random().nextInt(links1.size()));
-        random.click();
-        waitForContenLoad(Button);
+        try {
+            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+            List<WebElement> links1 = driver.findElements(budget);
+            random = links1.get(new Random().nextInt(links1.size()));
+            random.click();
+            waitForContenLoad(Button);
+            CustomReporter.log("\n" + "Passed budget Page");
+        } catch (NullPointerException e) {
+            CustomReporter.log("\n" + "Budget page is failed");
+            CustomReporter.captureScreenshot(driver, "budget", "budget");
+        }
+    }
+
+    public void enableButton() {
+        exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", getElement());
     }
 
     public void useFor() {
@@ -110,42 +135,45 @@ public class GeneralActions {
     }
 
     public void WeatherMessageBody() throws InterruptedException {
-        Thread.sleep(1100);
-        String SMS = getGetTestField();
-        String smsArray[] = new String[SMS.length()];
-        WebElement yourButton = driver.findElement(By.className("button"));
-        exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", yourButton);
-        for (int i = 0; i < SMS.length(); i++) {
-            smsArray[i] = String.valueOf(SMS.charAt(i));
-        }
+        By reciveSMSTITLE = By.className("page-title");
+//        Assert.assertEquals("Type received code", driver.findElement(reciveSMSTITLE).getText());
+        try {
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            String SMS = getGetTestField();
+            String smsArray[] = new String[4];
+            Assert.assertTrue(driver.findElement(reciveSMSTITLE)
+                    .getText()
+                    .contains("Type received code"));
 
-        driver.findElement(inputSMS1).sendKeys(smsArray[0]);
-        Thread.sleep(200);
-        driver.findElement(inputSMS2).sendKeys(smsArray[1]);
-        Thread.sleep(200);
-        driver.findElement(inputSMS3).sendKeys(smsArray[2]);
-        Thread.sleep(200);
-        driver.findElement(inputSMS4).sendKeys(smsArray[3]);
+            WebElement yourButton = driver.findElement(By.className("button"));
+            exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", yourButton);
+            Thread.sleep(500);
+            for (int i = 0; i < SMS.length(); i++) {
+                smsArray[i] = String.valueOf(SMS.charAt(i));
+                Thread.sleep(100);
+            }
+            driver.findElement(inputSMS1).sendKeys(smsArray[0]);
+            Thread.sleep(200);
+            driver.findElement(inputSMS2).sendKeys(smsArray[1]);
+            Thread.sleep(200);
+            driver.findElement(inputSMS3).sendKeys(smsArray[2]);
+            Thread.sleep(200);
+            driver.findElement(inputSMS4).sendKeys(smsArray[3]);
 //        isElementEnabled(Button, "SMS");
 
 
-        try {
-            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             if (yourButton.isEnabled()) {
                 yourButton.click();
             } else {
                 driver.findElement(Button).click();
             }
             CustomReporter.log("\n Set SMS Page is passed");
-        } catch (NullPointerException e) {
+        } catch (NoSuchElementException e) {
             CustomReporter.logAction("Button not clicked on the set message page");
             CustomReporter.captureScreenshot(driver, "sms", "sms");
         }
 
-    }
 
-    public void enableButton() {
-        exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", getElement());
     }
 
     public void setFullName() throws InterruptedException {
@@ -185,15 +213,15 @@ public class GeneralActions {
             actions.moveToElement(driver.findElement(d2)).sendKeys("1").perform();
             Thread.sleep(150);
             actions.moveToElement(driver.findElement(m1)).sendKeys("1").perform();
-            Thread.sleep(150);
+            Thread.sleep(175);
             actions.moveToElement(driver.findElement(m2)).sendKeys("1").perform();
-            Thread.sleep(150);
+            Thread.sleep(175);
             actions.moveToElement(driver.findElement(y1)).sendKeys("1").perform();
-            Thread.sleep(150);
+            Thread.sleep(175);
             actions.moveToElement(driver.findElement(y2)).sendKeys("9").perform();
-            Thread.sleep(150);
+            Thread.sleep(175);
             actions.moveToElement(driver.findElement(y3)).sendKeys("8").perform();
-            Thread.sleep(150);
+            Thread.sleep(175);
             actions.moveToElement(driver.findElement(y4)).sendKeys("8").perform();
             CustomReporter.logAction("Birthday entered");
             Thread.sleep(500);
