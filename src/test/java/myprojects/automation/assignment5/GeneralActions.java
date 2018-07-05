@@ -179,7 +179,10 @@ public class GeneralActions {
     }
 
     public void setFullName() throws InterruptedException {
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
+        By birthTite = By.xpath("//h1[.=\"What is your full name ?\"]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(birthTite));
+        Assert.assertEquals("What is your full name ?", driver.findElement(birthTite).getText());
         try {
             enableButton();
             new Actions(driver).moveToElement(driver.findElement(inputField)).perform();
@@ -198,10 +201,9 @@ public class GeneralActions {
 
 
     public void setDayOfBirth() throws InterruptedException {
-//        By birthTtle = By.xpath("//h1[.=\"Your birthday\"]");
+        By birthTtle = By.xpath("//h1[.=\"Your birthday\"]");
         wait.until(ExpectedConditions.titleIs("Instant car loan approval - Canada"));
-        wait.until(ExpectedConditions.titleIs("Instant car loan approval - Canada"));
-//        Assert.assertEquals("Your birthday", driver.findElement(birthTtle).getText());
+        Assert.assertEquals("Your birthday", driver.findElement(birthTtle).getText());
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             enableButton();
@@ -219,9 +221,10 @@ public class GeneralActions {
             actions.moveToElement(driver.findElement(d2)).sendKeys("1").perform();
             Thread.sleep(150);
             actions.moveToElement(driver.findElement(m1)).sendKeys("1").perform();
-            Thread.sleep(200);
+            Thread.sleep(150);
             actions.moveToElement(driver.findElement(m2)).sendKeys("1").perform();
-            Thread.sleep(200);
+            Thread.sleep(300);
+            driver.findElement(y1).click();
             actions.moveToElement(driver.findElement(y1)).sendKeys("1").perform();
             Thread.sleep(200);
             actions.moveToElement(driver.findElement(y2)).sendKeys("9").perform();
@@ -585,6 +588,24 @@ public class GeneralActions {
         return this;
     }
 
+    public boolean checkUser() {
+        Boolean returned = null;
+        By returnToHometitle = By.xpath("//h1[.=\"You are logged in as\"]");
+        By deleteProfileLink = By.className("button-logout");
+        By deleteButton = By.xpath("//*[@class=\"confirmation-buttons\"]/button[2]");
+
+        try {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(returnToHometitle));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(deleteProfileLink)).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(deleteButton)).click();
+            returned = true;
+        } catch (NoSuchElementException e) {
+            returned = false;
+        }
+
+        return returned;
+    }
 
     public GeneralActions returnToHome() {
         returnedButton.click();
