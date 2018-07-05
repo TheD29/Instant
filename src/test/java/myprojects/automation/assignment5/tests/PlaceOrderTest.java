@@ -7,14 +7,9 @@ import org.testng.annotations.Test;
 
 public class PlaceOrderTest extends BaseTest {
 
-    @DataProvider(name = "testParams")
-    public static Object[][] params() {
-        return new Object[][]{{"D Koperfild"}};
-    }
 
-    @Test(enabled = true, dataProvider = "testParams")
-    public void checkSignature(String fullName) throws InterruptedException {
-//        driver.get(Properties.getDefaultBaseReturned());
+    @Test(enabled = true, priority = 1)
+    public void checkSignature() throws InterruptedException {
         driver.get(Properties.getBaseUrl());
         actions.getCarList();
         actions.getBudgetList();
@@ -57,14 +52,15 @@ public class PlaceOrderTest extends BaseTest {
 
     }
 
-    @Test(enabled = true)
+    @Test(enabled = true, priority = 2)
     public void checkRecivedPayment() throws InterruptedException {
         driver.get(Properties.getBaseUrl());
+        actions.returnToHome();
         actions.getCarList();
         actions.getBudgetList();
         actions.useFor();
-        actions.setPhoneNumber();
-        actions.WeatherMessageBody();
+//        actions.setPhoneNumber();
+//        actions.WeatherMessageBody();
         Thread.sleep(3000);
         String url = driver.getCurrentUrl();
         if (url.equals("https://demo.instantcarloanapproval.ca/returned")) {
