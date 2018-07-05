@@ -72,6 +72,8 @@ public class Data {
 
     public static double getCapCost() {
         double capCost = (vehicleCost + warranty) - getCapCostResidual(downPayment);
+
+        System.out.println(getCapCostResidual(downPayment) + "cap cost residual");
         return capCost;
 
     }

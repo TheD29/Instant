@@ -2,6 +2,7 @@ package myprojects.automation.assignment5;
 
 import myprojects.automation.assignment5.model.Data;
 import myprojects.automation.assignment5.utils.DriverFactory;
+import myprojects.automation.assignment5.utils.logging.EventHandler;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.annotations.AfterClass;
@@ -17,14 +18,13 @@ import java.util.concurrent.TimeUnit;
 public abstract class BaseTest {
     protected EventFiringWebDriver driver;
     protected GeneralActions actions;
-    protected fileUploadActions fileUpload;
     protected Data data;
     protected boolean isMobileTesting;
 
 
     @BeforeClass
     @Parameters({"selenium.browser", "selenium.grid"})
-    public void setUp(@Optional("chrome") String browser, @Optional("http://localhost:4444/wd/hub") String gridUrl) {
+    public void setUp(@Optional("ubuntu") String browser, @Optional("http://localhost:4444/wd/hub") String gridUrl) {
         // TODO create WebDriver instance according to passed parameters
         driver = new EventFiringWebDriver(DriverFactory.initDriver(browser));
 //        driver.register(new EventHandler());
@@ -37,9 +37,7 @@ public abstract class BaseTest {
 
         isMobileTesting = isMobileTesting(browser);
 
-
         actions = PageFactory.initElements(driver, GeneralActions.class);
-        fileUpload = PageFactory.initElements(driver, fileUploadActions.class);
         data = new Data(driver);
 
     }
@@ -64,7 +62,8 @@ public abstract class BaseTest {
             case "firefox":
             case "ie":
             case "internet explorer":
-            case "ubuntu":
+
+
             default:
                 return false;
         }
