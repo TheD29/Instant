@@ -48,16 +48,14 @@ public class DriverFactory {
             case "chrome":
             default:
                 boolean OS = true;
-                String os = System.getProperty("os.name").toLowerCase();
                 ChromeOptions options = new ChromeOptions();
-
                 options.addArguments("--disable-extensions"); // disabling extensions
                 options.addArguments("disable-infobars"); // disabling infobars
                 options.addArguments("--disable-gpu"); // applicable to windows os only
                 options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
                 options.addArguments("--no-sandbox"); // Bypass OS security model
                 options.addArguments("--headless"); // Bypass OS security model
-
+                String os = System.getProperty("os.name").toLowerCase();
                 if (os.contains("win")) {
                     System.setProperty(
                             "webdriver.chrome.driver",
@@ -70,12 +68,7 @@ public class DriverFactory {
                     file.setWritable(true, true);
                     file.setExecutable(true, true);
 
-                    options.addArguments("--disable-extensions"); // disabling extensions
-                    options.addArguments("disable-infobars"); // disabling infobars
-                    options.addArguments("--disable-gpu"); // applicable to windows os only
-                    options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
-                    options.addArguments("--no-sandbox"); // Bypass OS security model
-                    options.addArguments("--headless"); // Bypass OS security model
+
 //                ChromeDriverService chromeService = new Builder().withVerbose(true)
 //                        .withLogFile(new File(DriverFactory.class.getResource("/driver.log")
 //                                .getFile()).getPath().build();

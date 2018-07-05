@@ -12,7 +12,7 @@ public class main extends BaseTest {
 
     }
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void getCurULR() {
         driver.get(Properties.getDefaultBaseReturned());
         String url = driver.getCurrentUrl();
