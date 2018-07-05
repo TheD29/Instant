@@ -1,9 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Products Management" verbose="1">
+<suite name="Products Management">
 
 
-
+    <!--verbose="1" Для отладки-->
 
     <test name="Signature and flow [chrome]">
         <parameter name="selenium.browser" value="chrome"/>
