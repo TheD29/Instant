@@ -125,6 +125,7 @@ public class GeneralActions {
     }
 
     public void setPhoneNumber() throws InterruptedException {
+//        6479469339
         Thread.sleep(500);
         driver.findElement(inputField).sendKeys("(438)448-4228");
         exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", getElement());
@@ -427,32 +428,49 @@ public class GeneralActions {
         random.click();
     }
 
-    public void orderSignature() throws InterruptedException {
+    public void orderSignatureRecivedPayment() throws InterruptedException {
         By signatureTitle = By.xpath("//p[.=\"Approval\"]");
         By signtatureFullName = By.xpath("//*[@class=\"page-signature\"]/div[6]/input");
         By vehicleCost = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/ul[1]/li[1]/span");
         By leaseTerm = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/ul[2]/li[1]/span");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(signatureTitle)).getText();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(signatureTitle)).getText();
         Assert.assertTrue(driver.findElement(signatureTitle)
                 .getText()
                 .contains("Approval"), "Okey");
-
-
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             /*Get signature data*/
-
             driver.findElement(signtatureFullName).sendKeys(Keys.ARROW_DOWN, "K Kobein");
-//            new Actions(driver).moveToElement(driver.findElement(signtatureFullName)).perform();
-//            driver.findElement(signatureTitle).click();
+            new Actions(driver).moveToElement(driver.findElement(signtatureFullName)).perform();
+            wait.until(ExpectedConditions.elementToBeClickable(Button)).click();
 
-            Thread.sleep(1500);
         } catch (NoSuchElementException e) {
             CustomReporter.captureScreenshot(driver, "signatureerror", "signature");
             CustomReporter.logAction("\n Signature Page Error Look At screenshot");
         }
 
+    }
 
+    public void orderSignature() throws InterruptedException {
+        By signatureTitle = By.xpath("//p[.=\"Approval\"]");
+        By signtatureFullName = By.xpath("//*[@class=\"page-signature\"]/div[6]/input");
+        By vehicleCost = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/ul[1]/li[1]/span");
+        By leaseTerm = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/ul[2]/li[1]/span");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(signatureTitle)).getText();
+        Assert.assertTrue(driver.findElement(signatureTitle)
+                .getText()
+                .contains("Approval"), "Okey");
+        try {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            /*Get signature data*/
+            driver.findElement(signtatureFullName).sendKeys(Keys.ARROW_DOWN, "K Kobein");
+            new Actions(driver).moveToElement(driver.findElement(signtatureFullName)).perform();
+
+        } catch (NoSuchElementException e) {
+            CustomReporter.captureScreenshot(driver, "signatureerror", "signature");
+            CustomReporter.logAction("\n Signature Page Error Look At screenshot");
+        }
+        Thread.sleep(1500);
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
@@ -479,8 +497,15 @@ public class GeneralActions {
         By capCost = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/ul[1]/li[3]/span");
         try {
             Assert.assertEquals(Data.getLeaseRate()
-                    , DataConverter.parseStringPrice(driver.findElement(leaseRate).getText()));
-            CustomReporter.log("\n Lease rate is passed->" + Data.getLeaseRate() + ":" + DataConverter.parseStringPrice(driver.findElement(leaseRate).getText()));
+                    , DataConverter.parseStringPrice(driver.findElement(leaseRate)
+                            .getText()
+                            .replaceAll(",", "")));
+            CustomReporter.log("\n Lease rate is passed->" +
+                    Data.getLeaseRate() +
+                    ":" + DataConverter
+                    .parseStringPrice(driver.findElement(leaseRate)
+                            .getText()
+                            .replaceAll(",", "")));
             System.out.print("\n assertion_method_2() -> Part executed");
         } catch (NullPointerException e) {
             CustomReporter.log("\n Lease rate is fail" + Data.getLeaseRate() + ":" + DataConverter.parseStringPrice(driver.findElement(leaseRate).getText()));
@@ -510,8 +535,10 @@ public class GeneralActions {
     }
 
     public void setCardParams() throws InterruptedException {
+        Thread.sleep(1500);
         By payDepositTitle = By.xpath("//p[.=\" Pay deposit\"]");
         By payDepositButton = By.xpath("//*[@class=\"page-payments\"]/button[1]");
+//        Assert.assertEquals(" Pay deposit", driver.findElement(payDepositTitle).getText());
 //        Assert.assertTrue(driver.findElement(payDepositTitle).getText().contains(" Pay deposit"), "Pay deposit page");
         try {
             Random rndNum = new Random();
@@ -522,11 +549,13 @@ public class GeneralActions {
             }
             cardHolder.sendKeys("k Kobein");
             vaildTHRU.sendKeys("01/19");
+            Thread.sleep(500);
             for (int nbr = 0; nbr <= 3; nbr++) {
                 String rndNum1 = String.valueOf(rndNum.nextInt());
                 securityCode.sendKeys(rndNum1);
-                Thread.sleep(50);
+                Thread.sleep(100);
             }
+//            wait.until(ExpectedConditions.elementToBeClickable(Button)).click();
             driver.findElement(payDepositButton).click();
         } catch (NullPointerException e) {
             CustomReporter.captureScreenshot(driver, "paydeposit", "paydeposit");
@@ -607,6 +636,15 @@ public class GeneralActions {
         return returned;
     }
 
+    public void getReceivedPayment() {
+        By priceTitle = By.xpath("//p[.=\"per month\"]");
+        By price = By.xpath("//*[@class=\"item-price\"]/p[1]");
+        Assert.assertEquals("per month", driver.findElement(priceTitle).getText());
+
+        isElementPresentText(price, "recivedPay", "recivedPey");
+
+    }
+
     public GeneralActions returnToHome() {
         returnedButton.click();
         return this;
@@ -616,14 +654,13 @@ public class GeneralActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(element)).click();
     }
 
-    private boolean isElementPresent(By element, String usName, String pathName) {
+    private void isElementPresentText(By element, String usName, String pathName) {
         try {
             driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-            driver.findElement(element);
-            return true;
+            String label = driver.findElement(element).getText().replaceAll(",", "");
+            DataConverter.parseStringPrice(label);
         } catch (NoSuchElementException e) {
             CustomReporter.captureScreenshot(driver, usName, pathName);
-            return false;
         }
     }
 
