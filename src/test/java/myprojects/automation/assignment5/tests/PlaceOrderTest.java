@@ -80,7 +80,7 @@ public class PlaceOrderTest extends BaseTest {
             actions.setWorkExpirience();
             actions.setMonthlyIncome();
             actions.setNoConfirmationMonthlyIncome();
-            fileUpload.getUploadLinkList(fileName);
+//            fileUpload.getUploadLinkList(fileName);
         }
     }
 
