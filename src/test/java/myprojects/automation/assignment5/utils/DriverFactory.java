@@ -47,18 +47,7 @@ public class DriverFactory {
                 return new ChromeDriver(chromeOptions);
             case "chrome":
             default:
-
-                System.setProperty(
-                        "webdriver.chrome.driver",
-                        new File(DriverFactory.class.getResource("/chromedriver.exe").getFile()).getPath());
-                return new ChromeDriver();
-
-            case "ubuntu":
-                File file = new File("chromedriver");
-                file.setReadable(true, true);
-                file.setWritable(true, true);
-                file.setExecutable(true, true);
-
+                boolean OS = true;
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-extensions"); // disabling extensions
                 options.addArguments("disable-infobars"); // disabling infobars
@@ -66,14 +55,36 @@ public class DriverFactory {
                 options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
                 options.addArguments("--no-sandbox"); // Bypass OS security model
                 options.addArguments("--headless"); // Bypass OS security model
+                String os = System.getProperty("os.name").toLowerCase();
+                if (os.contains("win")) {
+                    System.setProperty(
+                            "webdriver.chrome.driver",
+                            new File(DriverFactory.class.getResource("/chromedriver.exe").getFile()).getPath());
+
+//                    return new ChromeDriver();
+                } else if (os.contains("nux") || os.contains("nix")) {
+                    File file = new File("chromedriver");
+                    file.setReadable(true, true);
+                    file.setWritable(true, true);
+                    file.setExecutable(true, true);
+
+
 //                ChromeDriverService chromeService = new Builder().withVerbose(true)
 //                        .withLogFile(new File(DriverFactory.class.getResource("/driver.log")
 //                                .getFile()).getPath().build();
-                System.setProperty(
-                        "webdriver.chrome.driver",
-                        ("chromedriver"));
-                return new ChromeDriver(options);
+                    System.setProperty(
+                            "webdriver.chrome.driver",
+                            ("chromedriver"));
+                }
+
+                if (OS == true)
+                    return new ChromeDriver(options);
+                else {
+                    return new ChromeDriver(options);
+                }
+
         }
+
     }
 
     /**
