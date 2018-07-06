@@ -11,7 +11,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -306,8 +305,12 @@ public class GeneralActions {
     }
 
     public void setMonthlyIncome() throws InterruptedException {
-        Thread.sleep(1000);
+//        String income = String.format("%1s%s", "", "income?", "%1s%s");
+//        By montlyIncomeTitle = By.xpath("//span[.=\" income? \"]");
+//        Assert.assertEquals(driver.findElement(montlyIncomeTitle).getText(), income);
+        Thread.sleep(1500);
         try {
+            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
             List<WebElement> links1 = driver.findElements(budget);
             random = links1.get(new Random().nextInt(links1.size()));
             random.click();
@@ -523,7 +526,7 @@ public class GeneralActions {
 
         try {
             Assert.assertEquals(Data.getTotalLeasePMT()
-                    , DataConverter.parseStringPrice(driver.findElement(totalLeasePMT).getText()));
+                    , DataConverter.parseStringPrice(driver.findElement(totalLeasePMT).getText().replaceAll(",", "")));
             CustomReporter.log("\n Total leasePMT is passed - >" + Data.getTotalLeasePMT() +
                     " : " + DataConverter.parseStringPrice(driver.findElement(totalLeasePMT).getText()));
         } catch (NullPointerException e) {
@@ -547,28 +550,41 @@ public class GeneralActions {
                 cardNumber.sendKeys(rndNum1);
                 Thread.sleep(150);
             }
+
             cardHolder.sendKeys("k Kobein");
             vaildTHRU.sendKeys("01/19");
-            Thread.sleep(500);
-            for (int nbr = 0; nbr <= 3; nbr++) {
-                String rndNum1 = String.valueOf(rndNum.nextInt());
-                securityCode.sendKeys(rndNum1);
+            Thread.sleep(750);
+            for (int nbrs = 0; nbrs <= 3; nbrs++) {
+                String rndNum1S = String.valueOf(rndNum.nextInt());
+                securityCode.sendKeys(rndNum1S);
                 Thread.sleep(100);
             }
-//            wait.until(ExpectedConditions.elementToBeClickable(Button)).click();
-            driver.findElement(payDepositButton).click();
+//            driver.findElement(payDepositButton).click();
+            wait.until(ExpectedConditions.elementToBeClickable(payDepositButton)).click();
         } catch (NullPointerException e) {
             CustomReporter.captureScreenshot(driver, "paydeposit", "paydeposit");
             CustomReporter.logAction("Somthing wrong on Pay deposit page");
         }
     }
 
+    public void recivedPayment() {
+        By priceTitle = By.xpath("//p[.=\"per month\"]");
+        By leasePricePerMonth = By.xpath("//*[@class=\"item-price\"]/p[1]");
+        By backButton = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div/div[1]/button");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(priceTitle));
+
+        String vehiclePrice = driver.findElement(leasePricePerMonth)
+                .getText().replaceAll(",", "");
+
+        vehiclePrice = vehiclePrice.startsWith("$") ? vehiclePrice.substring(1) : vehiclePrice;
+        double price = Double.parseDouble(vehiclePrice);
+
+        Assert.assertNotEquals(price, Data.getTotalLeasePMT(), 0.00);
+        CustomReporter.log("Passed received your payment");
+    }
+
 //    public void WeatherMessageBody() {
-//        try {
-//            Thread.sleep(2500);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+
 //        Response resp = given().when().get("https://demo.instantcarloanapproval.ca/phone");
 //        Response resp2 = given().when().get("https://demo.instantcarloanapproval.ca/phone");
 //        System.out.println(resp.asString());
@@ -584,11 +600,6 @@ public class GeneralActions {
 ////        subStr = message.replaceAll("[^\\d]", "");
 ////        // Вывод результата на экран
 ////        char[] activationCode = subStr.toCharArray();
-////        try {
-////            Thread.sleep(1000);
-////        } catch (InterruptedException e) {
-////            e.printStackTrace();
-////        }
 ////        System.out.println(subStr);
 ////        String[] myArray = new String[subStr.length()];
 ////        for (int i = 0; i < subStr.length(); i++) {
@@ -602,20 +613,9 @@ public class GeneralActions {
 ////                    .until(ExpectedConditions.visibilityOfElementLocated(SMS))
 ////                    .sendKeys((String.valueOf(subStr.charAt(i))));
 //////            driver.findElement(SMS).sendKeys((String.valueOf(subStr.charAt(i))));
-////            try {
-////                Thread.sleep(1000);
-////            } catch (InterruptedException e) {
-////                e.printStackTrace();
-////            }
 ////        }
-//
-//
 //    }
 
-    public GeneralActions getButton() {
-        driver.findElement(Button).click();
-        return this;
-    }
 
     public boolean checkUser() {
         Boolean returned = null;
@@ -636,15 +636,6 @@ public class GeneralActions {
         return returned;
     }
 
-    public void getReceivedPayment() {
-        By priceTitle = By.xpath("//p[.=\"per month\"]");
-        By price = By.xpath("//*[@class=\"item-price\"]/p[1]");
-        Assert.assertEquals("per month", driver.findElement(priceTitle).getText());
-
-        isElementPresentText(price, "recivedPay", "recivedPey");
-
-    }
-
     public GeneralActions returnToHome() {
         returnedButton.click();
         return this;
@@ -654,14 +645,17 @@ public class GeneralActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(element)).click();
     }
 
-    private void isElementPresentText(By element, String usName, String pathName) {
+    private double isElementPresentValue(By element, String usName, String pathName) {
+        double price = 0;
         try {
             driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
             String label = driver.findElement(element).getText().replaceAll(",", "");
-            DataConverter.parseStringPrice(label);
+            price = DataConverter.parseStringPrice(label);
+
         } catch (NoSuchElementException e) {
             CustomReporter.captureScreenshot(driver, usName, pathName);
         }
+        return price;
     }
 
     private boolean isElementEnabled(By element, String screenName, String pathName) {
@@ -675,12 +669,6 @@ public class GeneralActions {
             CustomReporter.captureScreenshot(driver, screenName, pathName);
             return false;
         }
-    }
-
-    public void getNewTab() {
-        driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "t");
-        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(0));
     }
 
 
