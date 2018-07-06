@@ -131,6 +131,7 @@ public class PlaceOrderTest extends BaseTest {
             actions.setDeliveryOptions();
             actions.orderSignatureRecivedPayment();
             actions.setCardParams();
+            actions.recivedPayment();
         }
     }
 
