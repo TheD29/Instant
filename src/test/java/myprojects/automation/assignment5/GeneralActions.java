@@ -573,9 +573,14 @@ public class GeneralActions {
 
         vehiclePrice = vehiclePrice.startsWith("$") ? vehiclePrice.substring(1) : vehiclePrice;
         double price = Double.parseDouble(vehiclePrice);
-
-        Assert.assertNotEquals(price, Data.getTotalLeasePMT(), 0.00);
-        CustomReporter.log("Passed received your payment");
+        try {
+            Assert.assertEquals(price, Data.getTotalLeasePMT(), 0.00);
+            CustomReporter.log("Passed received your payment" +
+                    "Acual res: " + price + " | " +
+                    "Expected res: " + Data.getTotalLeasePMT());
+        } catch (NoSuchElementException e) {
+            CustomReporter.log("Failed  received your payment");
+        }
     }
 
 
