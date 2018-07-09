@@ -53,6 +53,12 @@ public class PlaceOrderTest extends BaseTest {
     }
 
     @Test(enabled = true, priority = 3)
+    public void check_icla99() {
+        actions.returnToPreviousPage();
+        actions.checkLeaseRateOnCarPtifilePage();
+    }
+
+    @Test(enabled = true, priority = 4)
     public void checkRecivedPayment_icla101() throws InterruptedException {
         driver.get(Properties.getBaseUrl());
         actions.returnToHome();
@@ -93,7 +99,7 @@ public class PlaceOrderTest extends BaseTest {
         }
     }
 
-    @Test(enabled = true, priority = 4)
+    @Test(enabled = true, priority = 5)
     public void checkVehiclePriceAfterReturn_icla102() throws InterruptedException {
         Thread.sleep(1000);
         actions.returnToHomePage();

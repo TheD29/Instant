@@ -644,6 +644,24 @@ public class GeneralActions {
 
     }
 
+    public void checkLeaseRateOnCarPtifilePage() {
+        By leasePMT = By.className("price-value");
+
+        String price = wait.until(ExpectedConditions
+                .visibilityOfElementLocated(leasePMT)).getText()
+                .replaceAll(",", "");
+        price = price.startsWith("$") ? price.substring(1) : price;
+        double leaseCarPMT = Double.parseDouble(price);
+        try {
+            Assert.assertEquals(leaseCarPMT, Data.getTotalLeasePMT(), 0);
+            CustomReporter.log("\n" + "Expected -> " + leaseCarPMT + " | " + "Actual: " + Data.getTotalLeasePMT());
+        } catch (NoSuchElementException e) {
+            CustomReporter.log("Failed leasePTM on car profile page");
+
+        }
+
+    }
+
     public void returnToHomePage() {
         By returnButton = By.xpath("//button[.=\"Return to home page\"]");
         wait.until(ExpectedConditions.visibilityOfElementLocated(returnButton)).click();
