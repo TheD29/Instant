@@ -578,39 +578,6 @@ public class GeneralActions {
         CustomReporter.log("Passed received your payment");
     }
 
-//    public void WeatherMessageBody() {
-
-//        Response resp = given().when().get("https://demo.instantcarloanapproval.ca/phone");
-//        Response resp2 = given().when().get("https://demo.instantcarloanapproval.ca/phone");
-//        System.out.println(resp.asString());
-//        System.out.println(resp2);
-//        Response response = given().body("{\"telephoneNumber\": \"+14384484228\"}").when()
-//                .contentType(ContentType.JSON)
-//                .post("https://demo.instantcarloanapproval.ca/api/sign-up");
-//        String message = response.asString();
-//        System.out.println(response.asString());
-////        message = message.substring(90, message.length());
-////        String subStr;
-////        String delimeter = "\\:"; // Разделитель
-////        subStr = message.replaceAll("[^\\d]", "");
-////        // Вывод результата на экран
-////        char[] activationCode = subStr.toCharArray();
-////        System.out.println(subStr);
-////        String[] myArray = new String[subStr.length()];
-////        for (int i = 0; i < subStr.length(); i++) {
-////            myArray[i] = (String.valueOf(subStr.charAt(i)));
-////
-////
-//////            WebElement searchinput = driver.findElement(By.className("input"));
-//////            JavascriptExecutor phone = ((JavascriptExecutor) driver);
-//////            phone.executeScript("arguments[0].value='1';", searchinput);
-////            wait
-////                    .until(ExpectedConditions.visibilityOfElementLocated(SMS))
-////                    .sendKeys((String.valueOf(subStr.charAt(i))));
-//////            driver.findElement(SMS).sendKeys((String.valueOf(subStr.charAt(i))));
-////        }
-//    }
-
 
     public boolean checkUser() {
         Boolean returned = null;
@@ -644,7 +611,7 @@ public class GeneralActions {
             String vehicleLease = driver.findElement(deliveryLeasePrice).getText().replaceAll(",", "");
             double price = DataConverter.parseStringPrice(vehicleLease);
             Assert.assertEquals(Data.getTotalLeasePMT(), price, 0);
-
+            CustomReporter.log("\n Passed Lease PTM on select delivery option page");
         } catch (NoSuchElementException e) {
             CustomReporter.log("\n Failed Lease PTM on select delivery options page");
             CustomReporter.captureScreenshot(driver, "selectdeliveryprice", "selectdeliveryprice");
