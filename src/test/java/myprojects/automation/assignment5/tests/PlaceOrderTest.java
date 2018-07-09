@@ -52,6 +52,59 @@ public class PlaceOrderTest extends BaseTest {
 
     }
 
+    @Test(enabled = true, priority = 2)
+    public void checkRecivedPayment_icla101() throws InterruptedException {
+        driver.get(Properties.getBaseUrl());
+        actions.returnToHome();
+        actions.getCarList();
+        actions.getBudgetList();
+        actions.useFor();
+//        actions.setPhoneNumber();
+//        actions.WeatherMessageBody();
+        Thread.sleep(3000);
+        String url = driver.getCurrentUrl();
+        if (url.equals("https://demo.instantcarloanapproval.ca/returned")) {
+            actions.checkUser();
+            System.out.println("current");
+            actions.getCarList();
+            actions.getBudgetList();
+            actions.useFor();
+            actions.setPhoneNumber();
+            actions.WeatherMessageBody();
+        }
+        actions.setFullName();
+        actions.setDayOfBirth();
+        /*man or women*/
+        actions.setGender();
+        /*Work or no*/
+        actions.getWorkType();//true no work/ false work
+        if (actions.getWorkType() == true) {
+            actions.setWorkExpirience();
+            actions.setMonthlyIncome();
+            actions.setNoConfirmationMonthlyIncome();
+            actions.setUploadLaterLink();
+            actions.setDownPayment();
+            actions.getAviableCarList();
+            actions.viewCar();
+            actions.setDeliveryOptions();
+            actions.orderSignatureRecivedPayment();
+            actions.setCardParams();
+            actions.recivedPayment();
+        }
+    }
+
+    @Test(enabled = true, priority = 3)
+    public void checkVehiclePriceAfterReturn_102() throws InterruptedException {
+        Thread.sleep(1000);
+        actions.returnToHomePage();
+        String profileCars = driver.getCurrentUrl();
+        if (profileCars.equals("https://demo.instantcarloanapproval.ca/profilecars")) {
+            actions.recivedPayment();
+        }
+        actions.profileDeleting();
+
+    }
+
     @Test(enabled = false)
     public void checkSignatureRecive() throws InterruptedException {
         driver.get(Properties.getBaseUrl());
@@ -93,48 +146,6 @@ public class PlaceOrderTest extends BaseTest {
 
 
     }
-
-    @Test(enabled = true, priority = 2)
-    public void checkRecivedPayment() throws InterruptedException {
-        driver.get(Properties.getBaseUrl());
-        actions.returnToHome();
-        actions.getCarList();
-        actions.getBudgetList();
-        actions.useFor();
-//        actions.setPhoneNumber();
-//        actions.WeatherMessageBody();
-        Thread.sleep(3000);
-        String url = driver.getCurrentUrl();
-        if (url.equals("https://demo.instantcarloanapproval.ca/returned")) {
-            actions.checkUser();
-            System.out.println("current");
-            actions.getCarList();
-            actions.getBudgetList();
-            actions.useFor();
-            actions.setPhoneNumber();
-            actions.WeatherMessageBody();
-        }
-        actions.setFullName();
-        actions.setDayOfBirth();
-        /*man or women*/
-        actions.setGender();
-        /*Work or no*/
-        actions.getWorkType();//true no work/ false work
-        if (actions.getWorkType() == true) {
-            actions.setWorkExpirience();
-            actions.setMonthlyIncome();
-            actions.setNoConfirmationMonthlyIncome();
-            actions.setUploadLaterLink();
-            actions.setDownPayment();
-            actions.getAviableCarList();
-            actions.viewCar();
-            actions.setDeliveryOptions();
-            actions.orderSignatureRecivedPayment();
-            actions.setCardParams();
-            actions.recivedPayment();
-        }
-    }
-
 
     @DataProvider(name = "documentUpload")
     public static Object[][] upload() {

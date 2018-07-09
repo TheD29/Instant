@@ -60,11 +60,6 @@ public class GeneralActions {
         actions = new Actions(driver);
     }
 
-    public GeneralActions getPageTitle(By element) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(element)).getText();
-        return this;
-    }
-
     public String getGetTestField() {
         String sms = null;
         try {
@@ -643,6 +638,26 @@ public class GeneralActions {
 
     public void waitForContenLoad(By element) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(element)).click();
+    }
+
+    public void profileDeleting() {
+        By profile = By.className("avatar");
+        By deleteProfileLink = By.className("button-logout");
+        By confirmDelete = By.xpath("//*[@class=\"confirmation-buttons\"]/button[2]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(profile)).click();
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(deleteProfileLink)).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(confirmDelete)).click();
+            CustomReporter.logAction("User is deleted");
+        } catch (NoSuchElementException e) {
+            CustomReporter.log("Failed profile deleting");
+        }
+
+    }
+
+    public void returnToHomePage() {
+        By returnButton = By.xpath("//button[.=\"Return to home page\"]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(returnButton)).click();
     }
 
     private double isElementPresentValue(By element, String usName, String pathName) {
