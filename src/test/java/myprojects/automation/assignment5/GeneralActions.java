@@ -39,6 +39,7 @@ public class GeneralActions {
     private By inputSMS3 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div[3]/div/input");
     private By inputSMS4 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div[4]/div/input");
     private By getTestField = By.className("fieldForTest");
+    private By deliveryOptions = By.xpath("//p[.=\"Select delivery options\"]");
     @FindBy(className = "returned-button")
     private WebElement returnedButton;
     private By pageTitle = By.className("page-title");
@@ -415,7 +416,6 @@ public class GeneralActions {
     }
 
     public void setDeliveryOptions() {
-        By deliveryOptions = By.xpath("//p[.=\"Select delivery options\"]");
         wait.until(ExpectedConditions.visibilityOfElementLocated(deliveryOptions));
         Assert.assertTrue(driver.findElement(deliveryOptions)
                 .getText()
@@ -631,6 +631,28 @@ public class GeneralActions {
         return returned;
     }
 
+    public void checkLeasePMTOnSelectDeliveryOptions() {
+        By deliveryLeasePrice = By.xpath("//*[@class=\"info-price\"]/b");
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(deliveryOptions));
+        Assert.assertTrue(driver.findElement(deliveryOptions)
+                .getText()
+                .contains("Select delivery options"), "Contain");
+
+        try {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            String vehicleLease = driver.findElement(deliveryLeasePrice).getText().replaceAll(",", "");
+            double price = DataConverter.parseStringPrice(vehicleLease);
+            Assert.assertEquals(Data.getTotalLeasePMT(), price, 0);
+
+        } catch (NoSuchElementException e) {
+            CustomReporter.log("\n Failed Lease PTM on select delivery options page");
+            CustomReporter.captureScreenshot(driver, "selectdeliveryprice", "selectdeliveryprice");
+
+        }
+
+    }
+
     public GeneralActions returnToHome() {
         returnedButton.click();
         return this;
@@ -658,6 +680,18 @@ public class GeneralActions {
     public void returnToHomePage() {
         By returnButton = By.xpath("//button[.=\"Return to home page\"]");
         wait.until(ExpectedConditions.visibilityOfElementLocated(returnButton)).click();
+    }
+
+    public void returnToPreviousPage() {
+        By backToPreviousPage = By.className("header-back");
+        try {
+            actions.moveToElement(driver.findElement(backToPreviousPage)).perform();
+//            wait.until(ExpectedConditions.visibilityOfElementLocated(backToPreviousPage)).click();
+            WebElement ele = driver.findElement(By.className("header-back"));
+            exec.executeScript("arguments[0].click();", ele);
+        } catch (NoSuchElementException e) {
+            CustomReporter.log("Back button isn't found");
+        }
     }
 
     private double isElementPresentValue(By element, String usName, String pathName) {
