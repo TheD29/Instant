@@ -53,9 +53,14 @@ public class PlaceOrderTest extends BaseTest {
     }
 
     @Test(enabled = true, priority = 3)
-    public void check_icla99() {
+    public void check_icla99() throws InterruptedException {
         actions.returnToPreviousPage();
         actions.checkLeaseRateOnCarPtifilePage();
+        actions.returnToPreviousPage();
+        Thread.sleep(1000);
+        actions.returnToPreviousPage();
+        Thread.sleep(500);
+        actions.profileDeleting();
     }
 
     @Test(enabled = true, priority = 4)
@@ -101,7 +106,7 @@ public class PlaceOrderTest extends BaseTest {
 
     @Test(enabled = true, priority = 5)
     public void checkVehiclePriceAfterReturn_icla102() throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(1500);
         actions.returnToHomePage();
         String profileCars = driver.getCurrentUrl();
         if (profileCars.equals("https://demo.instantcarloanapproval.ca/profilecars")) {

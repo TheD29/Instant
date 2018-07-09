@@ -450,6 +450,9 @@ public class GeneralActions {
     }
 
     public void orderSignature() throws InterruptedException {
+        String carCost;
+        String vehCost;
+        String lTerm;
         By signatureTitle = By.xpath("//p[.=\"Approval\"]");
         By signtatureFullName = By.xpath("//*[@class=\"page-signature\"]/div[6]/input");
         By vehicleCost = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/ul[1]/li[1]/span");
@@ -472,12 +475,12 @@ public class GeneralActions {
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-            String carCost = driver.findElement(vehicleCost).getText();
+            carCost = driver.findElement(vehicleCost).getText();
             /**/
-            String vehCost = driver.findElement(vehicleCost).getText().replaceAll(",", "");
+            vehCost = driver.findElement(vehicleCost).getText().replaceAll(",", "");
             vehCost = vehCost.startsWith("$") ? vehCost.substring(1) : vehCost;
             Data.vehicleCost = Double.parseDouble(vehCost);
-            String lTerm = driver.findElement(leaseTerm).getText();
+            lTerm = driver.findElement(leaseTerm).getText();
             lTerm = lTerm.substring(0, 2);
             Data.leaseTerm = Integer.parseInt(lTerm);
             checkOrderSignature();
@@ -562,17 +565,20 @@ public class GeneralActions {
         }
     }
 
-    public void recivedPayment() {
+    public void recivedPayment() throws InterruptedException {
+        Thread.sleep(1700);
+        String vehiclePrice = null;
+        double price = 0;
         By priceTitle = By.xpath("//p[.=\"per month\"]");
         By leasePricePerMonth = By.xpath("//*[@class=\"item-price\"]/p[1]");
         By backButton = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div/div[1]/button");
         wait.until(ExpectedConditions.visibilityOfElementLocated(priceTitle));
 
-        String vehiclePrice = driver.findElement(leasePricePerMonth)
+        vehiclePrice = driver.findElement(leasePricePerMonth)
                 .getText().replaceAll(",", "");
 
         vehiclePrice = vehiclePrice.startsWith("$") ? vehiclePrice.substring(1) : vehiclePrice;
-        double price = Double.parseDouble(vehiclePrice);
+        price = Double.parseDouble(vehiclePrice);
         try {
             Assert.assertEquals(price, Data.getTotalLeasePMT(), 0.00);
             CustomReporter.log("Passed received your payment" +
