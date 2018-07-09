@@ -532,7 +532,6 @@ public class GeneralActions {
                     " : " + DataConverter.parseStringPrice(driver.findElement(totalLeasePMT).getText()));
         }
 
-
     }
 
     public void setCardParams() throws InterruptedException {
@@ -566,7 +565,6 @@ public class GeneralActions {
     }
 
     public void recivedPayment() throws InterruptedException {
-        Thread.sleep(1700);
         String vehiclePrice = null;
         double price = 0;
         By priceTitle = By.xpath("//p[.=\"per month\"]");
@@ -574,12 +572,15 @@ public class GeneralActions {
         By backButton = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div/div[1]/button");
         wait.until(ExpectedConditions.visibilityOfElementLocated(priceTitle));
 
-        vehiclePrice = driver.findElement(leasePricePerMonth)
-                .getText().replaceAll(",", "");
 
-        vehiclePrice = vehiclePrice.startsWith("$") ? vehiclePrice.substring(1) : vehiclePrice;
-        price = Double.parseDouble(vehiclePrice);
         try {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            actions.moveToElement(driver.findElement(backButton)).perform();
+            Thread.sleep(1000);
+            vehiclePrice = driver.findElement(leasePricePerMonth)
+                    .getText().replaceAll(",", "");
+            vehiclePrice = vehiclePrice.startsWith("$") ? vehiclePrice.substring(1) : vehiclePrice;
+            price = Double.parseDouble(vehiclePrice);
             Assert.assertEquals(price, Data.getTotalLeasePMT(), 0.00);
             CustomReporter.log("Passed received your payment" +
                     "Acual res: " + price + " | " +
@@ -640,14 +641,16 @@ public class GeneralActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(element)).click();
     }
 
-    public void profileDeleting() {
+    public void profileDeleting() throws InterruptedException {
         By profile = By.className("avatar");
         By deleteProfileLink = By.className("button-logout");
         By confirmDelete = By.xpath("//*[@class=\"confirmation-buttons\"]/button[2]");
         wait.until(ExpectedConditions.visibilityOfElementLocated(profile)).click();
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(deleteProfileLink)).click();
+            Thread.sleep(500);
             wait.until(ExpectedConditions.visibilityOfElementLocated(confirmDelete)).click();
+            Thread.sleep(500);
             CustomReporter.logAction("User is deleted");
         } catch (NoSuchElementException e) {
             CustomReporter.log("Failed profile deleting");
