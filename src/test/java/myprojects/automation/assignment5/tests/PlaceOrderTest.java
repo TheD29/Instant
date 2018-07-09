@@ -9,7 +9,7 @@ public class PlaceOrderTest extends BaseTest {
 
 
     @Test(enabled = true, priority = 1)
-    public void checkSignature() throws InterruptedException {
+    public void checkSignature_01() throws InterruptedException {
         driver.get(Properties.getBaseUrl());
         actions.getCarList();
         actions.getBudgetList();
@@ -58,7 +58,6 @@ public class PlaceOrderTest extends BaseTest {
     public void PriceAfterReturn_icla102() throws InterruptedException {
         actions.returnToHomePage();
         String profileCars = driver.getCurrentUrl();
-        Thread.sleep(1000);
         if (profileCars.equals("https://demo.instantcarloanapproval.ca/profilecars")) {
             actions.recivedPayment();
         }
