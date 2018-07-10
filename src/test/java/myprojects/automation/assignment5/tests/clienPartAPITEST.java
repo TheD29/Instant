@@ -137,6 +137,7 @@ public class clienPartAPITEST extends BaseTest {
 
     @Test(enabled = true)
     public void fileUpload() {
+
         File filePath = new File(System.getProperty("user.dir") + "/src/test/resources/jenkins.jpg");
         response = given()
                 .header("token", token)
@@ -149,6 +150,7 @@ public class clienPartAPITEST extends BaseTest {
                 .extract().response();
         System.out.println(response.asString());
         CustomReporter.log(response.asString());
+
     }
 
     @Test(enabled = true)
