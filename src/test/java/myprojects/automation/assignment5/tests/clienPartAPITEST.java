@@ -1,8 +1,10 @@
 package myprojects.automation.assignment5.tests;
 
 import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 import myprojects.automation.assignment5.BaseTest;
+import myprojects.automation.assignment5.parse.Parser;
 import myprojects.automation.assignment5.utils.logging.CustomReporter;
 import org.testng.annotations.Test;
 
@@ -162,5 +164,27 @@ public class clienPartAPITEST extends BaseTest {
                 .then().assertThat().statusCode(200)
                 .and().contentType(ContentType.JSON).extract().response();
         CustomReporter.log(response.asString());
+        JsonPath jPath = Parser.rawToJSON(response);
+        int length = jPath.get("listOfCars.size()");
+        System.out.println(length);
+
+        for (int i = 0; i < length; i++) {
+            System.out.println((String) jPath.get("listOfCars[" + i + "].name") + " | " + jPath.get("listOfCars[" + i + "].id"));
+        }
+
+    }
+
+
+    @Test(enabled = true)
+    public void userDelete() {
+        response = given()
+                .header("token", token)
+                .when()
+                .contentType(ContentType.JSON)
+                .post("https://demo.instantcarloanapproval.ca/api/user-delete")
+                .then().assertThat().statusCode(200)
+                .extract().response();
+        CustomReporter.log(response.asString());
+        System.out.println(response.asString());
     }
 }
