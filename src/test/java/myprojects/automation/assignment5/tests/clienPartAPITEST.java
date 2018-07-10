@@ -3,9 +3,11 @@ package myprojects.automation.assignment5.tests;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import myprojects.automation.assignment5.BaseTest;
+import myprojects.automation.assignment5.utils.DriverFactory;
 import myprojects.automation.assignment5.utils.logging.CustomReporter;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.Random;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -89,19 +91,20 @@ public class clienPartAPITEST extends BaseTest {
     }
 
     @Test(enabled = true)
-    public void monthlyIncomeConfirm() {
-        response = given().header("token", token)
-                .body("{\n" +
-                        "   \"confirmMonthlyIncome\": 1\n" +
-                        "}")
-                .contentType(ContentType.JSON)
+    public void workExpirience() {
+        Random random = new Random();
+        int experience = 0 + (int) (Math.random() * 2);
+
+        response = given()
+                .header("token", token)
                 .when()
-                .post("https://demo.instantcarloanapproval.ca/api/confirm-monthly-income")
+                .body("{\"workingExperience\":" + experience + "}")
+                .contentType(ContentType.JSON)
+                .post("https://demo.instantcarloanapproval.ca/api/work-experience")
                 .then().assertThat().statusCode(200)
                 .extract().response();
-        System.out.println(response.asString());
         CustomReporter.log(response.asString());
-
+        System.out.println(response.asString());
     }
 
     @Test(enabled = true)
@@ -118,20 +121,36 @@ public class clienPartAPITEST extends BaseTest {
     }
 
     @Test(enabled = true)
-    public void workExpirience() {
-        Random random = new Random();
-        int experience = 0 + (int) (Math.random() * 2);
-
-        response = given()
-                .header("token", token)
-                .when()
-                .body("{\"workingExperience\":" + experience + "}")
+    public void monthlyIncomeConfirm() {
+        response = given().header("token", token)
+                .body("{\n" +
+                        "   \"confirmMonthlyIncome\": 1\n" +
+                        "}")
                 .contentType(ContentType.JSON)
-                .post("https://demo.instantcarloanapproval.ca/api/work-experience")
+                .when()
+                .post("https://demo.instantcarloanapproval.ca/api/confirm-monthly-income")
                 .then().assertThat().statusCode(200)
                 .extract().response();
-        CustomReporter.log(response.asString());
         System.out.println(response.asString());
+        CustomReporter.log(response.asString());
+
+    }
+
+    @Test(enabled = true)
+    public void fileUpload() {
+       File filePath = new File(System.getProperty("user.dir") + "/src/test/resources/jenkins.jpg");
+        response = given()
+                .header("token", token)
+//                .multiPart("file", "c:\\MyCARSDoc\\Bugs\\jenkins.jpg", "image/jpeg")
+                .multiPart("file", filePath, "image/jpeg")
+                .multiPart("type", "1")
+                .when()
+                .contentType("multipart/form-data")
+                .post("https://demo.instantcarloanapproval.ca/api/files_restore")
+                .then().assertThat()
+                .extract().response();
+        System.out.println(response.asString());
+        CustomReporter.log(response.asString());
     }
 
     @Test(enabled = true)
