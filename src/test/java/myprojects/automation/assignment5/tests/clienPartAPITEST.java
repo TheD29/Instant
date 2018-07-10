@@ -6,6 +6,8 @@ import myprojects.automation.assignment5.BaseTest;
 import myprojects.automation.assignment5.utils.logging.CustomReporter;
 import org.testng.annotations.Test;
 
+import java.util.Random;
+
 import static com.jayway.restassured.RestAssured.given;
 
 public class clienPartAPITEST extends BaseTest {
@@ -113,6 +115,23 @@ public class clienPartAPITEST extends BaseTest {
                 .then().assertThat().statusCode(200)
                 .extract().response();
         CustomReporter.log(response.asString());
+    }
+
+    @Test(enabled = true)
+    public void workExpirience() {
+        Random random = new Random();
+        int experience = 0 + (int) (Math.random() * 2);
+
+        response = given()
+                .header("token", token)
+                .when()
+                .body("{\"workingExperience\":" + experience + "}")
+                .contentType(ContentType.JSON)
+                .post("https://demo.instantcarloanapproval.ca/api/work-experience")
+                .then().assertThat().statusCode(200)
+                .extract().response();
+        CustomReporter.log(response.asString());
+        System.out.println(response.asString());
     }
 
     @Test(enabled = true)
