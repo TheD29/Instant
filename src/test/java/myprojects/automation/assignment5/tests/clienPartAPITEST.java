@@ -15,8 +15,10 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class clienPartAPITEST extends BaseTest {
 
-    static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlcGhvbmVOdW1iZXIiOiIrMTQzODQ0ODQyMjgiLCJ1c2VySUQiOiI1YjA2N2Y3NGMwMzIwYzExZmM3M2U1NzAiLCJpYXQiOjE1MzExNDEwMzQsImV4cCI6MTUzMTc0NTgzNH0.5KCCyI8GUu1P2ayLkTCqKLaHHiVILiJZ5mVyZoZEWL8";
-    Response response;
+    private static String carId = null;
+    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlcGhvbmVOdW1iZXIiOiIrMTQzODQ0ODQyMjgiLCJ1c2VySUQiOiI1YjA2N2Y3NGMwMzIwYzExZmM3M2U1NzAiLCJpYXQiOjE1MzExNDEwMzQsImV4cCI6MTUzMTc0NTgzNH0.5KCCyI8GUu1P2ayLkTCqKLaHHiVILiJZ5mVyZoZEWL8";
+    private Response response;
+
 
     @Test(enabled = true)
     public void checkAPISignUP() {
@@ -167,10 +169,17 @@ public class clienPartAPITEST extends BaseTest {
         JsonPath jPath = Parser.rawToJSON(response);
         int length = jPath.get("listOfCars.size()");
         System.out.println(length);
+        int carIdNumber = 0 + (int) (Math.random() * length);
+        carId = jPath.get("listOfCars[" + carIdNumber + "].id");
+        CustomReporter.log("Car id is -> " + carId);
+        System.out.println(carId);
+//        for (int i = 0; i < length; i++) {
+//            System.out.println((String) jPath.get("listOfCars[" + i + "].name") + " | " + jPath.get("listOfCars[" + i + "].id"));
+//        }
+    }
 
-        for (int i = 0; i < length; i++) {
-            System.out.println((String) jPath.get("listOfCars[" + i + "].name") + " | " + jPath.get("listOfCars[" + i + "].id"));
-        }
+    @Test(enabled = true)
+    public void car(){
 
     }
 
