@@ -57,26 +57,48 @@ public class clienPartAPITEST extends BaseTest {
 
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void genderAPI() {
         response = given()
                 .header("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlcGhvbmVOdW1iZXIiOiIrMTQzODQ0ODQyMjgiLCJ1c2VySUQiOiI1YjA2N2Y3NGMwMzIwYzExZmM3M2U1NzAiLCJpYXQiOjE1MzExNTY4MzIsImV4cCI6MTUzMTc2MTYzMn0.H_pSsnzWAeQWl_ZDgoxiljTVo5VZb-85IU4WRfH1pCk")
                 .when()
-                .body("{\"gender\": \"0\"}")
+                .body("{\n" +
+                        "\t\"gender\": 1\n" +
+                        "}")
                 .contentType(ContentType.JSON)
                 .post("https://demo.instantcarloanapproval.ca/api/male-or-female")
                 .then().assertThat().statusCode(200).extract().response();
+        System.out.println(response.getStatusCode());
+        CustomReporter.log(response.getStatusCode() + " | " + response.asString());
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
+    public void workingStatus() {
+        response = given()
+                .header("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlcGhvbmVOdW1iZXIiOiIrMTQzODQ0ODQyMjgiLCJ1c2VySUQiOiI1YjA2N2Y3NGMwMzIwYzExZmM3M2U1NzAiLCJpYXQiOjE1MzExNTY4MzIsImV4cCI6MTUzMTc2MTYzMn0.H_pSsnzWAeQWl_ZDgoxiljTVo5VZb-85IU4WRfH1pCk")
+                .when()
+                .body("{\n" +
+                        "\t\"workingStatus\": 1\n" +
+                        "}")
+                .contentType(ContentType.JSON)
+                .post("https://demo.instantcarloanapproval.ca/api/get-working-status")
+                .then().assertThat().statusCode(200).extract().response();
+        CustomReporter.log(response.getStatusCode() + " | " + response.asString());
+    }
+
+    @Test(enabled = true)
     public void monthlyIncomeConfirm() {
         response = given().header("token", token)
-                .body("{\"confirmMonthlyIncome\": \"true\"}")
+                .body("{\n" +
+                        "   \"confirmMonthlyIncome\": 1\n" +
+                        "}")
                 .contentType(ContentType.JSON)
                 .when()
                 .post("https://demo.instantcarloanapproval.ca/api/confirm-monthly-income")
                 .then().assertThat().statusCode(200)
                 .extract().response();
+        System.out.println(response.asString());
+        CustomReporter.log(response.asString());
 
     }
 
