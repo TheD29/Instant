@@ -571,8 +571,6 @@ public class GeneralActions {
         By leasePricePerMonth = By.xpath("//*[@class=\"item-price\"]/p[1]");
         By backButton = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div/div[1]/button");
         wait.until(ExpectedConditions.visibilityOfElementLocated(priceTitle));
-
-
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             actions.moveToElement(driver.findElement(backButton)).perform();
