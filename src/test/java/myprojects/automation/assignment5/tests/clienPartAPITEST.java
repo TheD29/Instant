@@ -57,29 +57,50 @@ public class clienPartAPITEST extends BaseTest {
 
     }
 
-//                .then().assertThat().statusCode(200);
-
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void genderAPI() {
-//        given()
-//                .header()
-//                .when()
-//                .body()
-//                .post()
-//                .then()
-//                .statusCode();
+        response = given()
+                .header("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlcGhvbmVOdW1iZXIiOiIrMTQzODQ0ODQyMjgiLCJ1c2VySUQiOiI1YjA2N2Y3NGMwMzIwYzExZmM3M2U1NzAiLCJpYXQiOjE1MzExNTY4MzIsImV4cCI6MTUzMTc2MTYzMn0.H_pSsnzWAeQWl_ZDgoxiljTVo5VZb-85IU4WRfH1pCk")
+                .when()
+                .body("{\"gender\": \"0\"}")
+                .contentType(ContentType.JSON)
+                .post("https://demo.instantcarloanapproval.ca/api/male-or-female")
+                .then().assertThat().statusCode(200).extract().response();
+    }
+
+    @Test(enabled = false)
+    public void monthlyIncomeConfirm() {
+        response = given().header("token", token)
+                .body("{\"confirmMonthlyIncome\": \"true\"}")
+                .contentType(ContentType.JSON)
+                .when()
+                .post("https://demo.instantcarloanapproval.ca/api/confirm-monthly-income")
+                .then().assertThat().statusCode(200)
+                .extract().response();
 
     }
 
+    @Test(enabled = true)
+    public void selectMonthlyIncome() {
+        response = given()
+                .header("token", token)
+                .when()
+                .body("{\"monthlyIncome\": \"1\"}")
+                .contentType(ContentType.JSON)
+                .post("https://demo.instantcarloanapproval.ca/api/monthly-income")
+                .then().assertThat().statusCode(200)
+                .extract().response();
+        CustomReporter.log(response.asString());
+    }
 
-    //    @Test(enabled = true)
-//    public void getUserNameApi() {
-//
-//        given()
-//                .header("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlcGhvbmVOdW1iZXIiOiIrMTQzODQ0ODQyMjgiLCJ1c2VySUQiOiI1YjA2N2Y3NGMwMzIwYzExZmM3M2U1NzAiLCJpYXQiOjE1MzExNDEwMzQsImV4cCI6MTUzMTc0NTgzNH0.5KCCyI8GUu1P2ayLkTCqKLaHHiVILiJZ5mVyZoZEWL8")
-//                .when()
-//                .body("{\"userName\": \"k Kobein\"}")
-//                .contentType(ContentType.JSON)
-//                .post("https://demo.instantcarloanapproval.ca/api/get-user-name")
-//    }
+    @Test(enabled = true)
+    public void getApprovedCarList() {
+        response = given()
+                .header("token", token)
+                .when()
+                .get("https://demo.instantcarloanapproval.ca/api/approved-cars")
+                .then().assertThat().statusCode(200)
+                .and().contentType(ContentType.JSON).extract().response();
+        CustomReporter.log(response.asString());
+    }
 }
