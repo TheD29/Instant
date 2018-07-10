@@ -3,7 +3,6 @@ package myprojects.automation.assignment5.tests;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import myprojects.automation.assignment5.BaseTest;
-import myprojects.automation.assignment5.utils.DriverFactory;
 import myprojects.automation.assignment5.utils.logging.CustomReporter;
 import org.testng.annotations.Test;
 
@@ -138,10 +137,9 @@ public class clienPartAPITEST extends BaseTest {
 
     @Test(enabled = true)
     public void fileUpload() {
-       File filePath = new File(System.getProperty("user.dir") + "/src/test/resources/jenkins.jpg");
+        File filePath = new File(System.getProperty("user.dir") + "/src/test/resources/jenkins.jpg");
         response = given()
                 .header("token", token)
-//                .multiPart("file", "c:\\MyCARSDoc\\Bugs\\jenkins.jpg", "image/jpeg")
                 .multiPart("file", filePath, "image/jpeg")
                 .multiPart("type", "1")
                 .when()
