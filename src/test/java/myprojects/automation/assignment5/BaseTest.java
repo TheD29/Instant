@@ -16,19 +16,11 @@ import java.util.concurrent.TimeUnit;
  * Base script functionality, can be used for all Selenium scripts.
  */
 public abstract class BaseTest {
-<<<<<<< HEAD
-
-=======
+    protected APIActions api;
     protected Response response;
->>>>>>> c4cf5a33a19b3a6243ccc0cf9a3790cc2a0006b0
     protected EventFiringWebDriver driver;
     protected GeneralActions actions;
     protected fileUploadActions fileUpload;
-    protected APIActions api;
-<<<<<<< HEAD
-    protected Response response;
-=======
->>>>>>> c4cf5a33a19b3a6243ccc0cf9a3790cc2a0006b0
     protected Data data;
     protected boolean isMobileTesting;
 
