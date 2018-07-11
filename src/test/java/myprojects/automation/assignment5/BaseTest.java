@@ -1,5 +1,6 @@
 package myprojects.automation.assignment5;
 
+import com.jayway.restassured.response.Response;
 import myprojects.automation.assignment5.model.Data;
 import myprojects.automation.assignment5.utils.DriverFactory;
 import org.openqa.selenium.support.PageFactory;
@@ -15,9 +16,12 @@ import java.util.concurrent.TimeUnit;
  * Base script functionality, can be used for all Selenium scripts.
  */
 public abstract class BaseTest {
+
     protected EventFiringWebDriver driver;
     protected GeneralActions actions;
     protected fileUploadActions fileUpload;
+    protected APIActions api;
+    protected Response response;
     protected Data data;
     protected boolean isMobileTesting;
 
@@ -41,6 +45,7 @@ public abstract class BaseTest {
         actions = PageFactory.initElements(driver, GeneralActions.class);
         fileUpload = PageFactory.initElements(driver, fileUploadActions.class);
         data = new Data(driver);
+        api = new APIActions(response);
 
     }
 
