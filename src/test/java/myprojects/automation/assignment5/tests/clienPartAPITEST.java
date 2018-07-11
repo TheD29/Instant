@@ -60,14 +60,11 @@ public class clienPartAPITEST extends BaseTest {
     @Test(enabled = true)
     public void getApprovedCarList() {
         api.getApprovedCarList();
-<<<<<<< HEAD
     }
 
     @Test(enabled = true)
     public void getDeliveryOptions() {
         api.postSelectCarAndListOnDeliveryOptions();
-=======
->>>>>>> c4cf5a33a19b3a6243ccc0cf9a3790cc2a0006b0
     }
 
     @Test(enabled = true)
@@ -75,10 +72,7 @@ public class clienPartAPITEST extends BaseTest {
         api.postUserDelete();
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> c4cf5a33a19b3a6243ccc0cf9a3790cc2a0006b0
     public String getCarId() {
         return carId;
     }
