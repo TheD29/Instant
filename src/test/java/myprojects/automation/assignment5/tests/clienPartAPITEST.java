@@ -59,12 +59,12 @@ public class clienPartAPITEST extends BaseTest {
 
     @Test(enabled = true)
     public void getApprovedCarList() {
-        api.getApprovedCarList();
+        api.getApprovedCarListInfo();
     }
 
     @Test(enabled = true)
-    public void getDeliveryOptions() {
-        api.postSelectCarAndListOnDeliveryOptions();
+    public void getSignatureAccept(){
+        api.postSignatureAccept();
     }
 
     @Test(enabled = true)
@@ -73,9 +73,6 @@ public class clienPartAPITEST extends BaseTest {
     }
 
 
-    public String getCarId() {
-        return carId;
-    }
 }
 
 

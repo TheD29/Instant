@@ -158,7 +158,7 @@ public class APIActions extends BaseTest {
     }
 
 
-    public void getApprovedCarList() {
+    public void getApprovedCarListInfo() {
         response = given()
                 .header("token", token)
                 .when()
@@ -184,19 +184,16 @@ public class APIActions extends BaseTest {
         CustomReporter.log(response.asString());
         System.out.println(carId);
 
-//        for (int i = 0; i < length; i++) {
-//            System.out.println((String) jPath.get("listOfCars[" + i + "].name") + " | " + jPath.get("listOfCars[" + i + "].id"));
-//        }
-    }
-
-    public void postSelectCarAndListOnDeliveryOptions() {
         response = given()
                 .header("token", token)
                 .when()
-                .body("{\"carId\": \"5b32ba6be529e97fa29ce266\"\"}")
-                .post("https://demo.instantcarloanapproval.ca/api/select_car")
+                .body("{\n" +
+                        "\t\"carId\": \"" + carId + "\"\n" +
+                        "}")
+                .contentType(ContentType.JSON)
+                .post("https://demo.instantcarloanapproval.ca/api/select_car/")
                 .then().assertThat().statusCode(200)
-                .and().contentType(ContentType.JSON)
+                .and()
                 .extract().response();
         CustomReporter.log(response.asString());
         System.out.println(response.asString());
@@ -211,6 +208,40 @@ public class APIActions extends BaseTest {
         CustomReporter.log(response.asString());
         System.out.println(response.asString());
 
+
+//        for (int i = 0; i < length; i++) {
+//            System.out.println((String) jPath.get("listOfCars[" + i + "].name") + " | " + jPath.get("listOfCars[" + i + "].id"));
+//        }
+    }
+
+    public void postAcceptDelivery() {
+        response = given()
+                .header("token", token)
+                .when()
+                .body("")
+                .contentType(ContentType.JSON)
+                .post("https://demo.instantcarloanapproval.ca/api/accept-delivery")
+                .then().assertThat().statusCode(200)
+                .extract().response();
+
+        System.out.println(response.asString());
+
+    }
+
+    public void postSignatureAccept() {
+        response = given()
+                .header("token", token)
+                .when()
+                .body("{\n" +
+                        "        \"isEmail\": \"false\",\n" +
+                        "        \"name\": \"dd\"\n" +
+                        "    }")
+                .contentType(ContentType.JSON)
+                .post("https://demo.instantcarloanapproval.ca/api/signature-accept")
+                .then().assertThat().statusCode(200)
+                .extract().response();
+
+        System.out.println(response.asString());
     }
 
 
@@ -226,8 +257,5 @@ public class APIActions extends BaseTest {
         System.out.println(response.asString());
     }
 
-    public String getCarId() {
-        return carId;
-    }
 
 }
