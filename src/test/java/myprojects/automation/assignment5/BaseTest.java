@@ -20,6 +20,7 @@ public abstract class BaseTest {
     protected Response response;
     protected EventFiringWebDriver driver;
     protected GeneralActions actions;
+    protected AnswerActions answer;
     protected fileUploadActions fileUpload;
     protected Data data;
     protected boolean isMobileTesting;
@@ -44,8 +45,8 @@ public abstract class BaseTest {
         actions = PageFactory.initElements(driver, GeneralActions.class);
         fileUpload = PageFactory.initElements(driver, fileUploadActions.class);
         data = new Data(driver);
+        answer = new AnswerActions(driver);
         api = new APIActions(response);
-
     }
 
     /**
@@ -54,7 +55,7 @@ public abstract class BaseTest {
     @AfterClass
     public void tearDown() {
         if (driver != null) {
-            driver.quit();
+//            driver.quit();
         }
     }
 

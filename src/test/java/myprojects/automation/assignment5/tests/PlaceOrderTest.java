@@ -126,13 +126,13 @@ public class PlaceOrderTest extends BaseTest {
         answer.getAnswersWhenClientIsntWork();
 //        actions.recivedPayment();
 
-        System.out.println(
-                Answers.monthlyBudget + "\n" +
-                        Answers.whyDoYouNeedACar + "\n" +
-                        Answers.gender + "\n" +
-                        Answers.workingType + "\n" +
-                        Answers.workingExpirience + "\n" +
-                        Answers.downPayment + "\n");
+//        System.out.println(
+//                Answers.monthlyBudget + "\n" +
+//                        Answers.whyDoYouNeedACar + "\n" +
+//                        Answers.gender + "\n" +
+//                        Answers.workingType + "\n" +
+//                        Answers.workingExpirience + "\n" +
+//                        Answers.downPayment + "\n");
     }
 
 }

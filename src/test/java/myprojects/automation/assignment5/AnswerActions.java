@@ -75,10 +75,24 @@ public class AnswerActions {
         try {
             driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
             for (int i = 0; i < answers.size() - 1; i++) {
-                if (answers.get(i).equals(0)) {
-                    Assert.assertEquals(answers.get(i).getText(), Answers.monthlyBudget);
-                    break;
-                }
+                System.out.println(answers.get(i).getText());
+//                if (answers.get(i).equals(0)) {
+//                    Assert.assertEquals(answers.get(i).getText(), Answers.monthlyBudget);
+//                    System.out.println("budget");
+//                    break;
+//                } else if (answers.get(i).equals(1)) {
+//                    Assert.assertEquals(answers.get(i).getText(), Answers.whyDoYouNeedACar);
+//                    System.out.println("need car");
+//                    break;
+//                } else if (answers.get(i).equals(2)) {
+//                    Assert.assertEquals(answers.get(i).getText(), Answers.birthDay);
+//                    System.out.println("bday");
+//                    break;
+//                } else if (answers.get(i).equals(3)) {
+//                    Assert.assertEquals(answers.get(i).getText(), Answers.gender);
+//                    System.out.println("gender");
+//                    break;
+//                }
             }
 
 
