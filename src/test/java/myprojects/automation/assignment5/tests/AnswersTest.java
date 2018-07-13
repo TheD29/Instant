@@ -94,8 +94,8 @@ public class AnswersTest extends BaseTest {
         actions.returnToHomePage();
         actions.openProfile();
         answer.getAnswersWhenClientIsWorking();
-        actions.returnToPreviousPage();
-        actions.profileDeleting();
+//        actions.returnToPreviousPage();
+//        actions.profileDeleting();
 
     }
 }

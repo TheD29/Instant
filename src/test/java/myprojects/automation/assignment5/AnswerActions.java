@@ -138,10 +138,10 @@ public class AnswerActions {
                 Assert.assertEquals(label, Answers.downPayment);
                 continue;
             }
-//            else if (i == 8) {
-//                Assert.assertEquals(label, Answers.confirmIncome);
-//                continue;
-//            }
+            else if (i == 8) {
+                Assert.assertEquals(label, Answers.confirmIncome);
+                continue;
+            }
         }
     }
 
