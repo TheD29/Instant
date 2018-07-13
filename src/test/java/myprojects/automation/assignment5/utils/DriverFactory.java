@@ -49,12 +49,12 @@ public class DriverFactory {
             default:
                 boolean OS = true;
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--disable-extensions"); // disabling extensions
-                options.addArguments("disable-infobars"); // disabling infobars
-                options.addArguments("--disable-gpu"); // applicable to windows os only
-                options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
-                options.addArguments("--no-sandbox"); // Bypass OS security model
-                options.addArguments("--headless"); // Bypass OS security model
+//                options.addArguments("--disable-extensions"); // disabling extensions
+//                options.addArguments("disable-infobars"); // disabling infobars
+//                options.addArguments("--disable-gpu"); // applicable to windows os only
+//                options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+//                options.addArguments("--no-sandbox"); // Bypass OS security model
+//                options.addArguments("--headless"); // Bypass OS security model
                 String os = System.getProperty("os.name").toLowerCase();
                 if (os.contains("win")) {
                     System.setProperty(

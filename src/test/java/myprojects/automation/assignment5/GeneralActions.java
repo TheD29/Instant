@@ -340,12 +340,14 @@ public class GeneralActions {
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             WebElement confirmIncome = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/button[1]"));
+            Answers.confirmIncome = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/button[1]")).getText();
             JavascriptExecutor executor = (JavascriptExecutor) driver;
             executor.executeScript("arguments[0].click();", confirmIncome);
             CustomReporter.log("\n Monthly income is confirmed");
         } catch (NoSuchElementException e) {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             WebElement confirmIncome = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/button[1]"));
+            Answers.confirmIncome = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/button[1]")).getText();
             JavascriptExecutor executor = (JavascriptExecutor) driver;
             executor.executeScript("arguments[0].click();", confirmIncome);
             CustomReporter.log("\n Monthly income isn't confirmed");
