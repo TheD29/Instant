@@ -4,7 +4,7 @@
     <!--verbose="1" Для отладки-->
 
 
-    <test name="Signature and flow [chrome]">
+    <test name="Signature page, and Lease PMT tests [chrome]">
         <parameter name="selenium.browser" value="chrome"/>
         <classes>
             <class name="myprojects.automation.assignment5.tests.PlaceOrderTest"/>
@@ -15,10 +15,17 @@
     <test name="API testing">
         <parameter name="selenium.browser" value="chrome"/>
         <classes>
-            <class name="myprojects.automation.assignment5.tests.clienPartAPITEST"/>
+            <class name="myprojects.automation.assignment5.tests.ClienPartAPITEST"/>
         </classes>
-
     </test>
+
+    <test name="Answers">
+        <parameter name="selenium.browser" value="chrome"/>
+        <classes>
+            <class name="myprojects.automation.assignment5.tests.AnswersTest"/>
+        </classes>
+    </test>
+
 
     <!--Configure tests for other browser types-->
 </suite>
