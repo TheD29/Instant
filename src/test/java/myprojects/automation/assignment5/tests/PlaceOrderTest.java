@@ -1,7 +1,6 @@
 package myprojects.automation.assignment5.tests;
 
 import myprojects.automation.assignment5.BaseTest;
-import myprojects.automation.assignment5.model.Answers;
 import myprojects.automation.assignment5.utils.Properties;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.annotations.Test;
@@ -108,6 +107,13 @@ public class PlaceOrderTest extends BaseTest {
             actions.useFor();
             actions.setPhoneNumber();
             actions.WeatherMessageBody();
+        } else if (url.equals("https://demo.instantcarloanapproval.ca/profilecars")) {
+            actions.profileDeleting();
+            actions.getCarList();
+            actions.getBudgetList();
+            actions.useFor();
+            actions.setPhoneNumber();
+            actions.WeatherMessageBody();
         }
         actions.setFullName();
         actions.setDayOfBirth();
@@ -124,15 +130,8 @@ public class PlaceOrderTest extends BaseTest {
         actions.returnToHomePage();
         actions.openProfile();
         answer.getAnswersWhenClientIsntWork();
-//        actions.recivedPayment();
-
-//        System.out.println(
-//                Answers.monthlyBudget + "\n" +
-//                        Answers.whyDoYouNeedACar + "\n" +
-//                        Answers.gender + "\n" +
-//                        Answers.workingType + "\n" +
-//                        Answers.workingExpirience + "\n" +
-//                        Answers.downPayment + "\n");
+        actions.returnToPreviousPage();
+        actions.profileDeleting();
     }
 
 }

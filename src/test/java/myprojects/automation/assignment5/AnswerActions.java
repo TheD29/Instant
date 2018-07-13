@@ -71,38 +71,66 @@ public class AnswerActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(titleText));
         List<WebElement> answers = driver.findElements(By.xpath("//*[@class=\"answer-item\"]/b"));
 
-
         try {
             driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-            for (int i = 0; i < answers.size() - 1; i++) {
-                System.out.println(answers.get(i).getText());
-//                if (answers.get(i).equals(0)) {
-//                    Assert.assertEquals(answers.get(i).getText(), Answers.monthlyBudget);
-//                    System.out.println("budget");
-//                    break;
-//                } else if (answers.get(i).equals(1)) {
-//                    Assert.assertEquals(answers.get(i).getText(), Answers.whyDoYouNeedACar);
-//                    System.out.println("need car");
-//                    break;
-//                } else if (answers.get(i).equals(2)) {
-//                    Assert.assertEquals(answers.get(i).getText(), Answers.birthDay);
-//                    System.out.println("bday");
-//                    break;
-//                } else if (answers.get(i).equals(3)) {
-//                    Assert.assertEquals(answers.get(i).getText(), Answers.gender);
-//                    System.out.println("gender");
-//                    break;
-//                }
-            }
+            for (int i = 0; i < answers.size(); i++) {
+                String label = answers.get(i).getText();
 
+                if (i == 0) {
+                    Assert.assertEquals(label, Answers.monthlyBudget);
+                    continue;
+                } else if (i == 1) {
+                    Assert.assertEquals(label, Answers.whyDoYouNeedACar);
+                    continue;
+                } else if (i == 2) {
+                    Assert.assertEquals(label, Answers.birthDay);
+                    continue;
+                } else if (i == 3) {
+                    Assert.assertEquals(label, Answers.gender);
+                } else if (i == 4) {
+                    Assert.assertEquals(label, Answers.workingType);
+                    continue;
+                } else if (i == 6) {
+                    Assert.assertEquals(label, Answers.downPayment);
+                    break;
+                }
+
+            }
 
         } catch (NoSuchElementException e) {
 
         }
+
 
     }
 
     public void getAnswersWhenClientisWork() {
 
     }
+
+    public void deleteProfile() {
+        By deleteProfileLink = By.className("button-logout");
+        By confirmDelete = By.xpath("//*[@class=\"confirmation-buttons\"]/button[2]");
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(deleteProfileLink)).click();
+            Thread.sleep(500);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(confirmDelete)).click();
+            CustomReporter.logAction("User is deleted");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void returnToPreviousPage() {
+        By backToPreviousPage = By.className("header-back");
+        try {
+            actions.moveToElement(driver.findElement(backToPreviousPage));
+//            wait.until(ExpectedConditions.visibilityOfElementLocated(backToPreviousPage)).click();
+            WebElement ele = driver.findElement(By.className("header-back"));
+            executor.executeScript("arguments[0].click();", ele);
+        } catch (NoSuchElementException e) {
+            CustomReporter.log("Back button isn't found");
+        }
+    }
+
 }
