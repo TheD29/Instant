@@ -77,6 +77,18 @@ public class ClientPartAPITest extends BaseTest {
         api.postUserDelete();
     }
 
+    //Todo performance tests
+
+    @Test(enabled = true)
+    public void performanceSignUp() {
+        api.performanceSignUp();
+    }
+
+    @Test(enabled = true)
+    public void performanceApprovedCarList() {
+        api.performanceApproveCarList();
+    }
+
 
 }
 
