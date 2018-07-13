@@ -584,7 +584,6 @@ public class GeneralActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(priceTitle));
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-            actions.moveToElement(driver.findElement(backButton)).perform();
             Thread.sleep(1000);
             vehiclePrice = driver.findElement(leasePricePerMonth)
                     .getText().replaceAll(",", "");
@@ -594,10 +593,34 @@ public class GeneralActions {
             CustomReporter.log("Passed received your payment" +
                     "Acual res: " + price + " | " +
                     "Expected res: " + Data.getTotalLeasePMT());
+//            actions.moveToElement(driver.findElement(backButton)).perform();
         } catch (NoSuchElementException e) {
             CustomReporter.log("Failed  received your payment");
         }
     }
+
+//    public void recivedPaymentAfterReturn() throws InterruptedException {
+//        String vehiclePrice = null;
+//        double price = 0;
+//        By priceTitle = By.xpath("//p[.=\"per month\"]");
+//        By leasePricePerMonth = By.xpath("//*[@class=\"item-price\"]/p[1]");
+//        By backButton = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div/div[1]/button");
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(priceTitle));
+//        try {
+//            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+//            Thread.sleep(1000);
+//            vehiclePrice = driver.findElement(leasePricePerMonth)
+//                    .getText().replaceAll(",", "");
+//            vehiclePrice = vehiclePrice.startsWith("$") ? vehiclePrice.substring(1) : vehiclePrice;
+//            price = Double.parseDouble(vehiclePrice);
+//            Assert.assertEquals(price, Data.getTotalLeasePMT(), 0.00);
+//            CustomReporter.log("Passed received your payment" +
+//                    "Acual res: " + price + " | " +
+//                    "Expected res: " + Data.getTotalLeasePMT());
+//        } catch (NoSuchElementException e) {
+//            CustomReporter.log("Failed  received your payment");
+//        }
+//    }
 
     public boolean checkUser() {
         Boolean returned = null;
