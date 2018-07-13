@@ -1,6 +1,7 @@
 package myprojects.automation.assignment5;
 
 
+import myprojects.automation.assignment5.model.Answers;
 import myprojects.automation.assignment5.model.Data;
 import myprojects.automation.assignment5.utils.DataConverter;
 import myprojects.automation.assignment5.utils.logging.CustomReporter;
@@ -61,6 +62,10 @@ public class GeneralActions {
         actions = new Actions(driver);
     }
 
+    public void enableButton() {
+        exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", getElement());
+    }
+
     public String getGetTestField() {
         String sms = null;
         try {
@@ -73,6 +78,11 @@ public class GeneralActions {
         return sms;
 
 
+    }
+
+    public WebElement getElement() {
+        WebElement yourButton = driver.findElement(By.className("button"));
+        return yourButton;
     }
 
     public void getCarList() {
@@ -94,6 +104,7 @@ public class GeneralActions {
             driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
             List<WebElement> links1 = driver.findElements(budget);
             random = links1.get(new Random().nextInt(links1.size()));
+            Answers.monthlyBudget = random.getText();
             random.click();
             waitForContenLoad(Button);
             CustomReporter.log("\n" + "Passed budget Page");
@@ -103,20 +114,19 @@ public class GeneralActions {
         }
     }
 
-    public void enableButton() {
-        exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", getElement());
-    }
-
     public void useFor() {
-        List<WebElement> links1 = driver.findElements(budget);
-        random = links1.get(new Random().nextInt(links1.size()));
-        random.click();
-        waitForContenLoad(Button);
-    }
+        try {
+            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+            List<WebElement> links1 = driver.findElements(budget);
+            random = links1.get(new Random().nextInt(links1.size()));
+            Answers.whyDoYouNeedACar = random.getText();
+            random.click();
+            waitForContenLoad(Button);
+            CustomReporter.logAction("Select why do you need a car");
+        } catch (NoSuchElementException e) {
+            CustomReporter.captureScreenshot(driver, "usefor", "useForm");
+        }
 
-    public WebElement getElement() {
-        WebElement yourButton = driver.findElement(By.className("button"));
-        return yourButton;
     }
 
     public void setPhoneNumber() throws InterruptedException {
@@ -252,6 +262,7 @@ public class GeneralActions {
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             WebElement genderButton = driver.findElement(By.xpath("//*[@class=\"gender-types\"]/button[2]"));
+            Answers.gender = driver.findElement(By.xpath("//*[@class=\"gender-types\"]/button[2]")).getText();
             JavascriptExecutor executor = (JavascriptExecutor) driver;
             executor.executeScript("arguments[0].click();", genderButton);
             CustomReporter.log("step Set Gender is Passed");
@@ -289,6 +300,7 @@ public class GeneralActions {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             List<WebElement> links1 = driver.findElements(wExpirience);
             random = links1.get(new Random().nextInt(links1.size()));
+            Answers.workingExpirience = random.getText();
             random.click();
             waitForContenLoad(Button);
             CustomReporter.log("\n Passed workExpirience page");
@@ -309,6 +321,7 @@ public class GeneralActions {
             driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
             List<WebElement> links1 = driver.findElements(budget);
             random = links1.get(new Random().nextInt(links1.size()));
+            Answers.monthlyIncome = random.getText();
             random.click();
             waitForContenLoad(Button);
             CustomReporter.log("\n Passed monthlyIncome");
@@ -365,6 +378,7 @@ public class GeneralActions {
                             .until(ExpectedConditions
                                     .visibilityOfAllElements(driver.findElements(downPaymant)));
             random = links1.get(new Random().nextInt(links1.size() - 1));
+            Answers.downPayment = random.getText();
             random.click();
             CustomReporter.logAction("\n" + "Set downpayment" + random.getText());
             String dwPay = random.getText();
@@ -378,7 +392,6 @@ public class GeneralActions {
         }
 
     }
-
 
     public void getAviableCarList() throws InterruptedException {
 
@@ -471,10 +484,9 @@ public class GeneralActions {
             CustomReporter.captureScreenshot(driver, "signatureerror", "signature");
             CustomReporter.logAction("\n Signature Page Error Look At screenshot");
         }
-        Thread.sleep(1500);
+        Thread.sleep(1000);
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
             carCost = driver.findElement(vehicleCost).getText();
             /**/
             vehCost = driver.findElement(vehicleCost).getText().replaceAll(",", "");
@@ -491,7 +503,7 @@ public class GeneralActions {
 
     }
 
-    public void checkOrderSignature() {
+    public void checkOrderSignature() throws InterruptedException {
         By leaseRate = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/ul[2]/li[2]/span");
         By taxes = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/ul[2]/li[3]/span");
         By totalLeasePMT = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/ul[2]/li[4]/span");
@@ -511,7 +523,6 @@ public class GeneralActions {
         } catch (NullPointerException e) {
             CustomReporter.log("\n Lease rate is fail" + Data.getLeaseRate() + ":" + DataConverter.parseStringPrice(driver.findElement(leaseRate).getText()));
         }
-
         try {
             Assert.assertEquals(Data.getTaxes()
                     , DataConverter.parseStringPrice(driver.findElement(taxes).getText()));
@@ -521,7 +532,7 @@ public class GeneralActions {
             CustomReporter.log("\n Taxes is failed - >" + Data.getTaxes() +
                     " : " + DataConverter.parseStringPrice(driver.findElement(taxes).getText()));
         }
-
+        Thread.sleep(750);
         try {
             Assert.assertEquals(Data.getTotalLeasePMT()
                     , DataConverter.parseStringPrice(driver.findElement(totalLeasePMT).getText().replaceAll(",", "")));
@@ -588,7 +599,6 @@ public class GeneralActions {
         }
     }
 
-
     public boolean checkUser() {
         Boolean returned = null;
         By returnToHometitle = By.xpath("//h1[.=\"You are logged in as\"]");
@@ -639,6 +649,11 @@ public class GeneralActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(element)).click();
     }
 
+    public void openProfile() {
+        By profile = By.className("avatar");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(profile)).click();
+    }
+
     public void profileDeleting() throws InterruptedException {
         By profile = By.className("avatar");
         By deleteProfileLink = By.className("button-logout");
@@ -648,7 +663,11 @@ public class GeneralActions {
             wait.until(ExpectedConditions.visibilityOfElementLocated(deleteProfileLink)).click();
             Thread.sleep(500);
             wait.until(ExpectedConditions.visibilityOfElementLocated(confirmDelete)).click();
-            Thread.sleep(500);
+            Assert.assertEquals(wait
+                            .until(ExpectedConditions
+                                    .visibilityOfElementLocated(By.xpath("//h1[.=\"What type of car you need?\"]")))
+                            .getText()
+                    , "What type of car you need?");
             CustomReporter.logAction("User is deleted");
         } catch (NoSuchElementException e) {
             CustomReporter.log("Failed profile deleting");
