@@ -65,6 +65,27 @@ public class AnswerActions {
 
     }
 
+    public void clientIsntConfirmMonthlyIncome() throws InterruptedException {
+
+        try {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            WebElement confirmIncome = driver.findElement(By.xpath("//button[.=\"No\"]"));
+            Answers.confirmIncome = driver.findElement(By.xpath("//button[.=\"No\"]")).getText();
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            executor.executeScript("arguments[0].click();", confirmIncome);
+            CustomReporter.log("\n Monthly income is confirmed");
+        } catch (NoSuchElementException e) {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            WebElement confirmIncome = driver.findElement(By.xpath("//button[.=\"No\"]"));
+            Answers.confirmIncome = driver.findElement(By.xpath("//button[.=\"No\"]")).getText();
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            executor.executeScript("arguments[0].click();", confirmIncome);
+            CustomReporter.log("\n Monthly income isn't confirmed");
+            CustomReporter.captureScreenshot(driver, "confirmation", "confirmationPage");
+        }
+
+    }
+
     public void getAnswersWhenClientIsntWorking() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonAnswer)).click();
 
@@ -137,8 +158,7 @@ public class AnswerActions {
             } else if (i == 7) {
                 Assert.assertEquals(label, Answers.downPayment);
                 continue;
-            }
-            else if (i == 8) {
+            } else if (i == 8) {
                 Assert.assertEquals(label, Answers.confirmIncome);
                 continue;
             }

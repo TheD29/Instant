@@ -313,10 +313,10 @@ public class GeneralActions {
     }
 
     public void setMonthlyIncome() throws InterruptedException {
-//        String income = String.format("%1s%s", "", "income?", "%1s%s");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.=\"Select monthly income\"]"))).getText();
 //        By montlyIncomeTitle = By.xpath("//span[.=\" income? \"]");
 //        Assert.assertEquals(driver.findElement(montlyIncomeTitle).getText(), income);
-        Thread.sleep(1500);
+//        Thread.sleep(1500);
         try {
             driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
             List<WebElement> links1 = driver.findElements(budget);
@@ -362,6 +362,7 @@ public class GeneralActions {
             WebElement uplLaterLink = driver.findElement(By.linkText("I will upload documents later"));
             JavascriptExecutor executor = (JavascriptExecutor) driver;
             executor.executeScript("arguments[0].click();", uplLaterLink);
+            Answers.confirmIncome = "No";
             CustomReporter.log("\n Upload link click Passed");
         } catch (NoSuchElementException e) {
             driver.findElement(uploadLaterLink).click();
