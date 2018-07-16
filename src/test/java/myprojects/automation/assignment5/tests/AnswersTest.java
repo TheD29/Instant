@@ -145,8 +145,18 @@ public class AnswersTest extends BaseTest {
     }
 
     @Test(enabled = false, priority = 4)
-    public void checkClientIsUploadDocuments() {
-
+    public void checkClientIsUploadDocuments() throws InterruptedException {
+        driver.get(Properties.getBaseUrl());
+        actions.getCarList();
+        actions.getBudgetList();
+        actions.setPhoneNumber();
+        actions.WeatherMessageBody();
+        String url = driver.getCurrentUrl();
+        if (url.equals("https://demo.instantcarloanapproval.ca/returned")) {
+            actions.checkUser();
+            actions.getCarList();
+            actions.getBudgetList();
+        }
     }
 
 

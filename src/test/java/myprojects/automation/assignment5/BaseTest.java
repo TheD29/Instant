@@ -38,7 +38,6 @@ public abstract class BaseTest {
         // unable to maximize window in mobile mode
         if (!isMobileTesting(browser))
             driver.manage().window().maximize();
-
         isMobileTesting = isMobileTesting(browser);
 
 
