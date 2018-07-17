@@ -2,10 +2,20 @@ package myprojects.automation.assignment5.tests;
 
 import myprojects.automation.assignment5.BaseTest;
 import myprojects.automation.assignment5.utils.Properties;
+import myprojects.automation.assignment5.utils.logging.CustomReporter;
 import org.testng.annotations.Test;
 
+@Test(enabled = true, priority = 1)
 public class PlaceOrderTest extends BaseTest {
 
+    @Test(enabled = true, priority = 0)
+    public void chekingUserCreatingAndCarIsOrdered() throws InterruptedException {
+        String url = driver.getCurrentUrl();
+        if (url.equals("https://demo.instantcarloanapproval.ca/profilecars")) {
+            actions.profileDeleting();
+            CustomReporter.logAction("User is deleted");
+        }
+    }
 
     @Test(enabled = true, priority = 1)
     public void checkSignature_01() throws InterruptedException {

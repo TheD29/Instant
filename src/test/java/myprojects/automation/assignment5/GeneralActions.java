@@ -360,8 +360,8 @@ public class GeneralActions {
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             WebElement uplLaterLink = driver.findElement(By.linkText("I will upload documents later"));
-            JavascriptExecutor executor = (JavascriptExecutor) driver;
-            executor.executeScript("arguments[0].click();", uplLaterLink);
+            Answers.confirmIncome = "No";
+            exec.executeScript("arguments[0].click();", uplLaterLink);
             CustomReporter.log("\n Upload link click Passed");
         } catch (NoSuchElementException e) {
             driver.findElement(uploadLaterLink).click();

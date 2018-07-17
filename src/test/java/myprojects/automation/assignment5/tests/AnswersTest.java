@@ -4,6 +4,7 @@ import myprojects.automation.assignment5.BaseTest;
 import myprojects.automation.assignment5.utils.Properties;
 import org.testng.annotations.Test;
 
+@Test(enabled = true, priority = 2)
 public class AnswersTest extends BaseTest {
 
     @Test(enabled = true, priority = 1)
