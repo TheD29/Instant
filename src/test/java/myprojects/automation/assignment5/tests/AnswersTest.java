@@ -84,7 +84,7 @@ public class AnswersTest extends BaseTest {
         answer.clientIsWorking();
         actions.setWorkExpirience();
         actions.setMonthlyIncome();
-        actions.setNoConfirmationMonthlyIncome();
+        actions.setConfirmationMonthlyIncome();
         actions.setUploadLaterLink();
         actions.setDownPayment();
         actions.getAviableCarList();
@@ -95,8 +95,8 @@ public class AnswersTest extends BaseTest {
         actions.returnToHomePage();
         actions.openProfile();
         answer.getAnswersWhenClientIsWorking();
-//        actions.returnToPreviousPage();
-//        actions.profileDeleting();
+        actions.returnToPreviousPage();
+        actions.profileDeleting();
 
     }
 
@@ -146,18 +146,38 @@ public class AnswersTest extends BaseTest {
     }
 
     @Test(enabled = false, priority = 4)
-    public void checkClientIsUploadDocuments() throws InterruptedException {
+    public void checkClientUploadDocuments() throws InterruptedException {
         driver.get(Properties.getBaseUrl());
         actions.getCarList();
         actions.getBudgetList();
+        actions.useFor();
         actions.setPhoneNumber();
         actions.WeatherMessageBody();
+        Thread.sleep(3000);
         String url = driver.getCurrentUrl();
         if (url.equals("https://demo.instantcarloanapproval.ca/returned")) {
             actions.checkUser();
             actions.getCarList();
             actions.getBudgetList();
+            actions.useFor();
+            actions.setPhoneNumber();
+            actions.WeatherMessageBody();
+        } else if (url.equals("https://demo.instantcarloanapproval.ca/profilecars")) {
+            actions.profileDeleting();
+            actions.getCarList();
+            actions.getBudgetList();
+            actions.useFor();
+            actions.setPhoneNumber();
+            actions.WeatherMessageBody();
         }
+        actions.setFullName();
+        actions.setDayOfBirth();
+        actions.setGender();
+        answer.clientIsWorking();
+        actions.setWorkExpirience();
+        actions.setMonthlyIncome();
+        actions.setConfirmationMonthlyIncome();
+        fileUpload.getUploadLinkList(System.getProperty("user.dir") + "/src/test/resources/jenkins.jpg");
     }
 
 

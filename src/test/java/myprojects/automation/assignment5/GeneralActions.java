@@ -332,7 +332,7 @@ public class GeneralActions {
 
     }
 
-    public void setNoConfirmationMonthlyIncome() throws InterruptedException {
+    public void setConfirmationMonthlyIncome() throws InterruptedException {
 
         Thread.sleep(1000);
 //        noConfirmation.click();

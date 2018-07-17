@@ -45,7 +45,7 @@ public class PlaceOrderTest extends BaseTest {
         if (actions.getWorkType() == true) {
             actions.setWorkExpirience();
             actions.setMonthlyIncome();
-            actions.setNoConfirmationMonthlyIncome();
+            actions.setConfirmationMonthlyIncome();
             actions.setUploadLaterLink();
             actions.setDownPayment();
             actions.getAviableCarList();
